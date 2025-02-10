@@ -1,10 +1,9 @@
 from dotenv import load_dotenv
 import os
 import requests
-import pandas as pd
 from registers import clear_old_registers, add_registers
 from send_email import send_email_error
-from datetime import datetime
+from process_data import process_data
 from arcgis.gis import GIS
 from smtplib import SMTP
 
@@ -19,22 +18,6 @@ def get_api_data(url):
     response = requests.get(url)
     response.raise_for_status()
     return response.json()
-
-def process_data(resposta_json):
-
-    df = pd.DataFrame(resposta_json['jams'])
-    if not df.empty:
-        df['Pais'] = "BR"
-        df['Cidade'] = "NITEROI"
-        df['Vel_km_h'] = df['speedKMH']
-        df['Tipo_da_rua'] = df['roadType']
-
-        now = datetime.now()
-        df['Data'] = now.strftime(format='%d/%m/%Y %H:%M')
-        df['Data'] = pd.to_datetime(df['Data'], dayfirst=True)
-        df['Data'] = df['Data'].apply(lambda x: int(x.timestamp() * 1000))
-
-    return df
 
 def main():
     log_erros = []
