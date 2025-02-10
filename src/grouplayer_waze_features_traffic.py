@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import requests
 import pandas as pd
-from registros import limpar_registros_antigos, adicionar_registros
+from registers import clear_old_registers, add_registers
 from datetime import datetime, timedelta
 from arcgis.gis import GIS
 from smtplib import SMTP
@@ -10,20 +10,20 @@ from email.mime.text import MIMEText
 
 load_dotenv()
 
-EMAIL_REMETENTE = os.getenv("EMAIL_REMETENTE")
-EMAIL_SENHA = os.getenv("EMAIL_SENHA")
-EMAIL_DESTINATARIO = os.getenv("EMAIL_DESTINATARIO")
+SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
+SENDER_EMAIL_PASSWORD = os.getenv("SENDER_EMAIL_PASSWORD")
+RECIPIENT_EMAIL_ADDRESS = os.getenv("RECIPIENT_EMAIL_ADDRESS")
 LAYER_ID = os.getenv("LAYER_ID")
 
 # Função para obter dados da API
-def obter_dados_api(url):
+def get_api_data(url):
 
     response = requests.get(url)
     response.raise_for_status()
     return response.json()
 
 # Função para processar os dados e criar o DataFrame
-def processar_dados(resposta_json):
+def process_data(resposta_json):
 
     df = pd.DataFrame(resposta_json['jams'])
     if not df.empty:
@@ -40,19 +40,19 @@ def processar_dados(resposta_json):
     return df
 
 # Função para enviar e-mail com o log de erros
-def enviar_email(log_erros):
+def send_email(log_erros):
     try:
         if not log_erros:
             return
-        corpo_email = "<br>".join(f"<p>{erro}</p>" for erro in log_erros)
-        msg = MIMEText(corpo_email, 'html')
+        email_body = "<br>".join(f"<p>{erro}</p>" for erro in log_erros)
+        msg = MIMEText(email_body, 'html')
         msg['Subject'] = "Erro_Script_Live_Waze_Traffic"
-        msg['From'] = EMAIL_REMETENTE
-        msg['To'] = EMAIL_DESTINATARIO
+        msg['From'] = SENDER_EMAIL_ADDRESS
+        msg['To'] = RECIPIENT_EMAIL_ADDRESS
         
         with SMTP("smtp.gmail.com", 587) as smtp:
             smtp.starttls()
-            smtp.login(EMAIL_REMETENTE, EMAIL_SENHA)
+            smtp.login(SENDER_EMAIL_ADDRESS, SENDER_EMAIL_PASSWORD)
             smtp.sendmail(msg['From'], msg['To'], msg.as_string())
     except Exception as e:
         print(f"Erro ao enviar e-mail: {e}")
@@ -61,44 +61,44 @@ def enviar_email(log_erros):
 def main():
     log_erros = []
     
-    USERNAME = os.getenv("USERNAME")
-    PASSWORD = os.getenv("EMAIL_PASSWORD")
+    AGOL_USERNAME = os.getenv("AGOL_USERNAME")
+    AGOL_PASSWORD = os.getenv("AGOL_PASSWORD")
     
     url = "https://www.waze.com/row-partnerhub-api/partners/18863635230/waze-feeds/feef83ff-1b4f-4d93-9d7a-dd3ea11304d3?format=1"
     
-    resposta_json = obter_dados_api(url)
+    json_response = get_api_data(url)
     
-    if isinstance(resposta_json, str):
-        log_erros.append(resposta_json)
-        enviar_email(log_erros)
+    if isinstance(json_response, str):
+        log_erros.append(json_response)
+        send_email(log_erros)
         return
     
-    df = processar_dados(resposta_json)
+    df = process_data(json_response)
     if isinstance(df, str):
         log_erros.append(df)
-        enviar_email(log_erros)
+        send_email(log_erros)
         return
     
     try:
-        gis = GIS("https://www.arcgis.com", USERNAME, PASSWORD)
+        gis = GIS("https://www.arcgis.com", AGOL_USERNAME, AGOL_PASSWORD)
         layer_id = LAYER_ID
         portal_item = gis.content.get(layer_id)
         traffic_agol = portal_item.layers[2]
         
     except Exception as e:
         log_erros.append(f"Erro ao conectar no ArcGIS: {e}")
-        enviar_email(log_erros)
+        send_email(log_erros)
         return
     
-    registros_removidos = limpar_registros_antigos(traffic_agol)
-    if isinstance(registros_removidos, str):
-        log_erros.append(registros_removidos)
+    registers_removed = clear_old_registers(traffic_agol)
+    if isinstance(registers_removed, str):
+        log_erros.append(registers_removed)
     
-    registros_adicionados = adicionar_registros(df, traffic_agol)
-    if isinstance(registros_adicionados, str):
-        log_erros.append(registros_adicionados)
+    registers_added = add_registers(df, traffic_agol)
+    if isinstance(registers_added, str):
+        log_erros.append(registers_added)
     
-    enviar_email(log_erros)
+    send_email(log_erros)
 
 if __name__ == "__main__":
     main()

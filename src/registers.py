@@ -1,6 +1,6 @@
 from arcgis.geometry import Polyline
 
-def limpar_registros_antigos(traffic_agol):
+def clear_old_registers(traffic_agol):
 
     print("Removendo registros antigos...")
     existing_features = traffic_agol.query(where="1=1", out_fields="OBJECTID").features
@@ -11,7 +11,7 @@ def limpar_registros_antigos(traffic_agol):
     else:
         print("Nenhum registro antigo encontrado.")
 
-def adicionar_registros(df, traffic_agol):
+def add_registers(df, traffic_agol):
 
     update_feature_list = []
     for _, row in df.iterrows():
