@@ -1,30 +1,16 @@
 import os
-from arcgis.gis import GIS
 from dotenv import load_dotenv
 from process_data import process_data
 from get_api_data import get_api_data_as_json
 from send_email import send_email_error
 from registers import clear_old_registers, add_registers
+from get_layer_on_arcgis import get_a_layer_index
 
 load_dotenv()
 
 AGOL_USERNAME = os.getenv("AGOL_USERNAME")
 AGOL_PASSWORD = os.getenv("AGOL_PASSWORD")
 LAYER_ID = os.getenv("LAYER_ID")
-
-def process_and_validate_data(json_response):
-    df = process_data(json_response)
-    if isinstance(df, str):
-        raise ValueError(f"Erro no processamento de dados: {df}")
-    return df
-
-def connect_to_arcgis():
-    try:
-        gis = GIS("https://www.arcgis.com", AGOL_USERNAME, AGOL_PASSWORD)
-        portal_item = gis.content.get(LAYER_ID)
-        return portal_item.layers[2]
-    except Exception as e:
-        raise ValueError(f"Erro ao conectar no ArcGIS: {e}")
 
 def update_layers_on_arcgis(traffic_layer, df):
     errors = []
@@ -46,9 +32,9 @@ def main():
     try:
         json_response = get_api_data_as_json(api_url)
 
-        df = process_and_validate_data(json_response)
+        df = process_data(json_response)
 
-        traffic_layer = connect_to_arcgis()
+        traffic_layer = get_a_layer_index(AGOL_USERNAME, AGOL_PASSWORD, LAYER_ID, 2)
 
         errors += update_layers_on_arcgis(traffic_layer, df)
         
