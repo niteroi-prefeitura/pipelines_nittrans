@@ -5,7 +5,6 @@ from registers import clear_old_registers, add_registers
 from send_email import send_email_error
 from process_data import process_data
 from arcgis.gis import GIS
-from smtplib import SMTP
 
 load_dotenv()
 

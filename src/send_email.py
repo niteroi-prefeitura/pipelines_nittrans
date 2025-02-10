@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 import os
 from email.mime.text import MIMEText
+from smtplib import SMTP
+
 load_dotenv()
 
 SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
