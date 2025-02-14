@@ -2,7 +2,7 @@ import requests
 from typing import Dict
 
 
-def generate_portal_token(**credentials: Dict[str, str]):
+def generate_portal_token(credentials: Dict[str, str]):
 
     params = {
         "username": credentials["portal_username"],
