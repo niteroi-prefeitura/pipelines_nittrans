@@ -14,9 +14,12 @@ credentials_to_send_error_email = {
     "recipient_email_address": os.getenv('SENDER_EMAIL_ADDRESS'),
 }
 
-AGOL_USERNAME = os.getenv("AGOL_USERNAME")
-AGOL_PASSWORD = os.getenv("AGOL_PASSWORD")
-LAYER_ID = os.getenv("LAYER_ID")
+credentials_to_get_layer_on_arcgis = {
+    "agol_username": os.getenv("AGOL_USERNAME"),
+    "agol_password": os.getenv("AGOL_PASSWORD"),
+    "layer_id": os.getenv("LAYER_ID"),
+}
+
 WAZE_PARTNER_HUB_API_URL = os.getenv("WAZE_PARTNER_HUB_API_URL")
 
 
@@ -43,7 +46,7 @@ def main():
         df = process_data(json_response)
 
         traffic_layer = get_a_layer_index(
-            AGOL_USERNAME, AGOL_PASSWORD, LAYER_ID, 2)
+            credentials_to_get_layer_on_arcgis, 2)
 
         errors += update_layers_on_arcgis(traffic_layer, df)
 
