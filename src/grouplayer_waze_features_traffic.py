@@ -1,10 +1,10 @@
 import os
 from dotenv import load_dotenv
-from process_data import process_data
-from get_api_data import get_api_data_as_json
-from send_email import send_email_error
-from registers import clear_old_registers, add_registers
-from get_layer_on_arcgis import get_a_layer_index
+from utils.process_data import process_data
+from utils.get_api_data import get_api_data_as_json
+from utils.send_email import send_email_error
+from utils.registers import clear_old_registers, add_registers
+from utils.get_layer_on_arcgis import get_a_layer_index
 
 load_dotenv()
 
