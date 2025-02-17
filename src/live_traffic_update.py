@@ -1,10 +1,10 @@
 import os
 from dotenv import load_dotenv
 from utils.process_data import process_data
-from utils.get_api_data import get_api_data_as_json
 from utils.send_email import send_email_error
-from utils.registers import clear_old_registers, add_registers
+from utils.get_api_data import get_api_data_as_json
 from utils.get_layer_on_arcgis import get_a_layer_index
+from utils.update_layers_on_arcgis import update_layers_on_arcgis
 
 load_dotenv()
 
@@ -21,20 +21,6 @@ credentials_to_get_layer_on_arcgis = {
 }
 
 WAZE_PARTNER_HUB_API_URL = os.getenv("WAZE_PARTNER_HUB_API_URL")
-
-
-def update_layers_on_arcgis(traffic_layer, df):
-    errors = []
-
-    registers_removed = clear_old_registers(traffic_layer)
-    if isinstance(registers_removed, str):
-        errors.append(registers_removed)
-
-    registers_added = add_registers(df, traffic_layer)
-    if isinstance(registers_added, str):
-        errors.append(registers_added)
-
-    return errors
 
 
 def main():
