@@ -41,7 +41,8 @@ def main():
 
     finally:
         if errors:
-            send_email_error(credentials_to_send_error_email, errors)
+            send_email_error(credentials_to_send_error_email,
+                             'Erro no Script de Live Traffic do Waze', errors)
 
 
 if __name__ == "__main__":

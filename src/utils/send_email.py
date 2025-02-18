@@ -2,13 +2,13 @@ from email.mime.text import MIMEText
 from smtplib import SMTP
 
 
-def send_email_error(credentials, errors):
+def send_email_error(credentials, subject, errors):
     try:
         if not errors:
             return
         email_body = "<br>".join(f"<p>{erro}</p>" for erro in errors)
         msg = MIMEText(email_body, 'html')
-        msg['Subject'] = "Erro_Script_Live_Waze_Traffic"
+        msg['Subject'] = subject
         msg['From'] = credentials["sender_email_address"]
         msg['To'] = credentials["recipient_email_address"]
 

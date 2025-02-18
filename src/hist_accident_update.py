@@ -33,3 +33,5 @@ def main():
     except Exception as e:
         error_message = str(e)
         print(f"Erro durante a execução: {error_message}")
+        send_email_error(credentials_to_send_error_email,
+                         'Erro no Script de Histórico de Acidentes Waze', error_message)
