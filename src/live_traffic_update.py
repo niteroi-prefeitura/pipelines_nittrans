@@ -11,7 +11,7 @@ load_dotenv()
 credentials_to_send_error_email = {
     "sender_email_address": os.getenv('SENDER_EMAIL_ADDRESS'),
     "sender_email_password": os.getenv('SENDER_EMAIL_PASSWORD'),
-    "recipient_email_address": os.getenv('SENDER_EMAIL_ADDRESS'),
+    "recipient_email_address": os.getenv('RECIPIENT_EMAIL_ADDRESS'),
 }
 
 credentials_to_get_layer_on_arcgis = {
