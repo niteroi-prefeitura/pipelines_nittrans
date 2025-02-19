@@ -1,5 +1,6 @@
 import requests
 
+
 def get_api_data_as_json(url):
     try:
         response = requests.get(url)

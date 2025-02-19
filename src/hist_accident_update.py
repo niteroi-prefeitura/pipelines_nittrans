@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 from utils.send_email import send_email_error
 from utils.generate_token import generate_portal_token
 from utils.get_layer_on_arcgis import get_a_layer_index
+from utils.process_data import process_data_hist_accident
+from utils.get_api_data import get_api_data_as_json
 
 load_dotenv()
 
@@ -25,11 +27,18 @@ credentials_to_get_layer_on_arcgis = {
     "layer_id": os.getenv("LAYER_ID"),
 }
 
+URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL")
+
 
 def main():
     try:
+        data = get_api_data_as_json(URL_WAZE_API)
+        df_accident = process_data_hist_accident(data)
+        if df_accident is None:
+            return
         token = generate_portal_token(credentials_to_generate_token)
         alerts_layer = get_a_layer_index(credentials_to_get_layer_on_arcgis, 1)
+
     except Exception as e:
         error_message = str(e)
         print(f"Erro durante a execução: {error_message}")
