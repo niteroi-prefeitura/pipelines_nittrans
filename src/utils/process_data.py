@@ -5,7 +5,7 @@ from datetime import datetime
 from datetime import timedelta
 
 
-def process_data(data):
+def process_data_live_traffic(data):
     df = pd.DataFrame(data['jams'])
 
     if df.empty:

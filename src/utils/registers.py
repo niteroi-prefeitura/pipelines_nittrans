@@ -1,21 +1,21 @@
 from arcgis.geometry import Polyline
 
 
-def clear_old_registers(traffic_agol):
+def clear_all_registers_on_agol_layer(agol_layer):
 
     print("Removendo registros antigos...")
-    existing_features = traffic_agol.query(
+    existing_features = agol_layer.query(
         where="1=1", out_fields="OBJECTID").features
     if existing_features:
         object_ids = [feat.attributes["OBJECTID"]
                       for feat in existing_features]
-        traffic_agol.delete_features(deletes=",".join(map(str, object_ids)))
+        agol_layer.delete_features(deletes=",".join(map(str, object_ids)))
         print(f"{len(object_ids)} registros removidos.")
     else:
         print("Nenhum registro antigo encontrado.")
 
 
-def add_registers(df, traffic_agol):
+def add_polyline_registers_on_agol_layer(df, attribute_map: dict[str, str], agol_layer):
 
     update_feature_list = []
     for _, row in df.iterrows():
@@ -23,26 +23,14 @@ def add_registers(df, traffic_agol):
         polyline = Polyline(
             {"paths": paths, "spatialReference": {"wkid": 4326}})
 
-        attributes = {
-            'Pais': row['Pais'],
-            'uuid': row['uuid'],
-            'street': row['street'],
-            'Final': str(row['endNode']),
-            'Tipo_da_rua': row['Tipo_da_rua'],
-            'Comprimento': row['length'],
-            'Vel_km_h': row['Vel_km_h'],
-            'Cidade': row['Cidade'],
-            'Level_': row['level'],
-            'delay': row['delay'],
-            'speed': row['speed'],
-            'turnType': row['turnType'],
-            'Data': row['Data']
-        }
+        attributes = {attr: row[col]
+                      for attr, col in attribute_map.items() if col in row}
 
-        feature_template = {"attributes": attributes, "geometry": polyline}
+        feature_template = {
+            "attributes": attributes, "geometry": polyline}
         update_feature_list.append(feature_template)
 
-    add_result = traffic_agol.edit_features(adds=update_feature_list)
+    add_result = agol_layer.edit_features(adds=update_feature_list)
 
     if "addResults" in add_result:
         added_count = sum(
