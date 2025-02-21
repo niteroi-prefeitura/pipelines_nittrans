@@ -1,19 +1,28 @@
-def update_point_layers_on_portal(df, url_gis_enterprise, token, live_layer):
+import os
+from arcgis.gis import GIS
+from dotenv import load_dotenv
+from arcgis.features import FeatureLayer
+
+load_dotenv()
+
+URL_TO_GENERATE_TOKEN = os.getenv("URL_TO_GENERATE_TOKEN")
+
+
+def update_point_layers_on_portal(df, credentials, token, live_layer):
     existing_features = live_layer.query(out_fields=["uuid"]).features
     existing_uuids = {
         feat.attributes['uuid']: feat.attributes['OBJECTID'] for feat in existing_features}
     df_uuids = set(df['uuid'])
-    # Função para atualizar os valores da camada existente
-    url = f"{url_gis_enterprise}/portal"
 
-    # Conectar ao portal com o token
+    url = f"{URL_TO_GENERATE_TOKEN}/portal"
+
     GIS(url, token=token)
 
-    layer_name = "NITTRANS_WAZE_P_HIST_ACIDENTE"
-    item = 0
+    layer_name = credentials["layer_name"]
+    item = credentials["item"]
     # Acessando a feature layer
     feature_layer = FeatureLayer(
-        f"{url_gis_enterprise}/server/rest/services/{layer_name}/FeatureServer/{item}")
+        f"{URL_TO_GENERATE_TOKEN}/server/rest/services/{layer_name}/FeatureServer/{item}")
 
     uuids_to_add = df_uuids - set(existing_uuids.keys())
 

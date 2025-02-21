@@ -1,5 +1,11 @@
+import os
 import requests
 from typing import Dict
+from dotenv import load_dotenv
+
+load_dotenv()
+
+URL_TO_GENERATE_TOKEN = os.getenv("URL_TO_GENERATE_TOKEN")
 
 
 def generate_portal_token(credentials: Dict[str, str]):
@@ -11,11 +17,10 @@ def generate_portal_token(credentials: Dict[str, str]):
         "f": "json",
     }
 
-    response = requests.post(credentials["url_to_generate_token"], data=params)
+    response = requests.post(URL_TO_GENERATE_TOKEN, data=params)
 
     if response.status_code == 200:
-        token = response.json().get("token")
-        print(f"Token gerado: {token}")
-        return token
+        token_info = response.json()
+        return token_info['token']
     else:
         print(f"Erro ao gerar token: {response.text}")
