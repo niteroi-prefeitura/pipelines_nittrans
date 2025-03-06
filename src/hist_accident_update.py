@@ -2,9 +2,10 @@ import os
 from dotenv import load_dotenv
 from utils.send_email import send_email_error
 from utils.generate_token import generate_portal_token
-from utils.get_layer_on_arcgis import get_a_layer_index
-from utils.process_data import process_data_hist_accident
+from utils.get_layer_on_arcgis import get_a_layer_object_agol, get_atributes_of_layer_object
+from utils.process_data import process_data_waze_alerts
 from utils.get_api_data import get_api_data_as_json
+from utils.compare_attributes import compare_attributes
 from utils.update_layers_on_portal import update_point_layers_on_portal
 
 load_dotenv()
@@ -28,8 +29,12 @@ credentials_to_get_layer_on_arcgis = {
 }
 
 credentials_to_send_data_to_portal = {
-    "url_gis_enterprise": os.getenv("URL_GIS_ENTERPRISE"),
     "layer_name": "NITTRANS_WAZE_P_HIST_ACIDENTE",
+    "item": 0
+}
+
+teste_credentials_to_send_data_to_portal = {
+    "layer_name": "TESTE_P_HIST_ACIDENTE",
     "item": 0
 }
 
@@ -39,16 +44,36 @@ URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL")
 def main():
     try:
         data = get_api_data_as_json(URL_WAZE_API)
-        df_accident = process_data_hist_accident(data)
-        if df_accident is None:
 
-            return
-        print("Tentando gerar token...")
-        token = generate_portal_token(credentials_to_generate_token)
-        print("Token gerado com sucesso! Valor de token: ", token)
-        alerts_layer = get_a_layer_index(credentials_to_get_layer_on_arcgis, 1)
-        update_point_layers_on_portal(
-            df_accident, credentials_to_send_data_to_portal, token, alerts_layer)
+        # Trazer dataframe tratado sem filtro baseado na API do Waze
+        df_alerts = process_data_waze_alerts(data)
+
+        # Buscar layer de alertas no agol
+        alerts_layer = get_a_layer_object_agol(
+            credentials_to_get_layer_on_arcgis, 1)
+
+        # Criar função para pegar os atributos da alerts_layer
+        alerts_layer_attributes = get_atributes_of_layer_object(
+            alerts_layer, "uuid")
+
+        # comparar os atributos do alerts_layer com os atributos do df_tratado
+        attributes_comparison = compare_attributes(
+            df_alerts, "tx_uuid", alerts_layer_attributes, "uuid")
+
+        print("Atributos iguais: ",
+              attributes_comparison["matching_attributes"])
+        print("Atributos apenas no df: ", attributes_comparison["only_in_df"])
+        print("Atributos apenas na layer: ",
+              attributes_comparison["only_in_layer"])
+
+        # Se os atributos forem iguais, atualizar apneas o campo de data na layer
+
+        # print("Tentando gerar token...")
+        # token = generate_portal_token(credentials_to_generate_token)
+        # print("Token gerado com sucesso! Valor de token: ", token)
+        # print("Valor de alerts_layer: ", alerts_layer)
+        # update_point_layers_on_portal(
+        #     df_accident, teste_credentials_to_send_data_to_portal, token, alerts_layer)
 
     except Exception as e:
         error_message = str(e)
