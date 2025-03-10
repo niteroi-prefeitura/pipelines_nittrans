@@ -32,7 +32,7 @@ def filter_waze_alerts_by_alert_type(df_alerts, alert_type):
     }
 
     # Substituir os valores em 'tx_tipo_via' de acordo com o mapeamento criado
-    df_alerts['tx_tipo_via'] = df_alerts['tx_tipo_via'].map(
+    df_filtered['tx_tipo_via'] = df_filtered['tx_tipo_via'].map(
         mapeamento_tipo_via)
 
     # Adicionar 3 horas na coluna 'dt_data_hora'
