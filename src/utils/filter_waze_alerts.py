@@ -5,8 +5,9 @@ def filter_waze_alerts_by_alert_type(df_alerts, alert_type):
     df_filtered = df_alerts[df_alerts['tx_tipo_alerta'] == alert_type]
 
     if df_filtered.empty:
-        print("Nenhum dado encontrado após aplicar o filtro. Nenhuma atualização será realizada nesta execução.")
-        return None
+        print(
+            f'Nenhum dado encontrado após aplicar o filtro do tipo {alert_type}')
+        return
 
     mapeamento_tipo_via = {
         1: 'Rua',

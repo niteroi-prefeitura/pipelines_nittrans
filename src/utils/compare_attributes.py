@@ -1,6 +1,6 @@
 def compare_attributes(df, df_attribute, layer, layer_attribute):
     df_attributes = set(df[df_attribute])
-    layer_attributes = {obj[layer_attribute] for obj in layer}
+    layer_attributes = set(layer[layer_attribute])
 
     matching_attributes = df_attributes.intersection(layer_attributes)
     only_in_df = df_attributes - layer_attributes

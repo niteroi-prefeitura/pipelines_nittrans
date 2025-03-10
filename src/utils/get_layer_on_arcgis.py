@@ -1,4 +1,5 @@
 from arcgis.gis import GIS
+import pandas as pd
 
 
 def get_a_layer_object_agol(credentials, layer_index: int):
@@ -20,6 +21,6 @@ def get_atributes_of_layer_object(layer, attributes):
         existing_features = layer.query(out_fields=[attributes]).features
         for feat in existing_features:
             existing_features_attributes.append(feat.attributes)
-        return existing_features_attributes
+        return pd.DataFrame(existing_features_attributes)
     except Exception as e:
         raise ValueError(f"Erro ao pegar os atributos da layer: {e}")
