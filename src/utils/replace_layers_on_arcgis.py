@@ -1,7 +1,7 @@
 from registers import clear_all_registers_on_agol_layer, add_polyline_registers_on_agol_layer
 
 
-def replace_polyline_layers_on_arcgis(agol_layer, df, attribute_map: dict[str, str]):
+def replace_polyline_layers_on_agol(agol_layer, df, attribute_map: dict[str, str]):
     errors = []
 
     registers_removed = clear_all_registers_on_agol_layer(agol_layer)

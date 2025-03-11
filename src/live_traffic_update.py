@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 from utils.process_data import process_data_live_traffic
 from utils.send_email import send_email_error
 from utils.get_api_data import get_api_data_as_json
-from utils.get_layer_on_arcgis import get_a_layer_index
-from utils.replace_layers_on_arcgis import replace_polyline_layers_on_arcgis
+from utils.get_layer_on_arcgis import get_a_layer_object_agol
+from utils.replace_layers_on_arcgis import replace_polyline_layers_on_agol
 
 load_dotenv()
 
@@ -14,10 +14,10 @@ credentials_to_send_error_email = {
     "recipient_email_address": os.getenv('RECIPIENT_EMAIL_ADDRESS'),
 }
 
-credentials_to_get_layer_on_arcgis = {
+credentials_to_get_layer_on_agol = {
     "agol_username": os.getenv("AGOL_USERNAME"),
     "agol_password": os.getenv("AGOL_PASSWORD"),
-    "layer_id": os.getenv("LAYER_ID"),
+    "layer_id_agol": os.getenv("LAYER_ID_AGOL"),
 }
 
 attribute_map = {
@@ -47,10 +47,10 @@ def main():
 
         df = process_data_live_traffic(json_response)
 
-        traffic_layer = get_a_layer_index(
-            credentials_to_get_layer_on_arcgis, 2)
+        traffic_layer = get_a_layer_object_agol(
+            credentials_to_get_layer_on_agol, 2)
 
-        errors += replace_polyline_layers_on_arcgis(
+        errors += replace_polyline_layers_on_agol(
             traffic_layer, df, attribute_map)
 
     except Exception as e:

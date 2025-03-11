@@ -16,20 +16,14 @@ credentials_to_generate_token = {
     "portal_referer": os.getenv("URL_GIS_ENTERPRISE")
 }
 
-credentials_to_send_error_email = {
-    "sender_email_address": os.getenv('SENDER_EMAIL_ADDRESS'),
-    "sender_email_password": os.getenv('SENDER_EMAIL_PASSWORD'),
-    "recipient_email_address": os.getenv('RECIPIENT_EMAIL_ADDRESS'),
-}
-
 credentials_to_get_layer_on_agol = {
     "agol_username": os.getenv("AGOL_USERNAME"),
     "agol_password": os.getenv("AGOL_PASSWORD"),
-    "layer_id": os.getenv("LAYER_ID"),
+    "layer_id_agol": os.getenv("LAYER_ID_AGOL"),
 }
 
 credentials_to_send_data_to_portal = {
-    "layer_name": "NITTRANS_WAZE_P_HIST_ACIDENTE",
+    "layer_name_portal": os.getenv("LAYER_NAME_PORTAL"),
     "item": 0
 }
 
@@ -51,11 +45,11 @@ def main():
             alerts_layer = get_a_layer_object_agol(
                 credentials_to_get_layer_on_agol, 1)
 
-            alerts_layer_with_uuid_and_tipe = get_atributes_of_layer_object(
+            alerts_layer_with_uuid_and_type = get_atributes_of_layer_object(
                 alerts_layer, "uuid, Tipo")
 
             compared_data = compare_attributes(
-                df_waze_accidents, "tx_uuid", alerts_layer_with_uuid_and_tipe, "uuid")
+                df_waze_accidents, "tx_uuid", alerts_layer_with_uuid_and_type, "uuid")
 
             accidents_only_in_df = df_waze_accidents[df_waze_accidents['tx_uuid'].isin(
                 compared_data["only_in_df"])]

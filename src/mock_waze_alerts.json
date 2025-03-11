@@ -8,11 +8,11 @@
       "confidence": 0,
       "reliability": 5,
       "type": "ACCIDENT",
-      "uuid": "4021d094-d700-402c-9cca-13e059212345",
+      "uuid": "4021d094-d700-402c-9cca-12345679",
       "roadType": 2,
       "magvar": 302,
-      "subtype": "JAM_STAND_STILL_TRAFFIC",
-      "street": "Av. Thiago Koch",
+      "subtype": "ACCIDENT_MAJOR",
+      "street": "Av. Victor Mascarenhas",
       "location": {
         "x": -43.039613,
         "y": -22.898623
@@ -26,12 +26,12 @@
       "reportByMunicipalityUser": "false",
       "confidence": 5,
       "reliability": 10,
-      "type": "JAM",
-      "uuid": "37ca84de-2d59-4820-ad66-05bf2969dff7",
+      "type": "ACCIDENT",
+      "uuid": "37ca84de-2d59-4820-ad66-87654321",
       "roadType": 6,
       "magvar": 178,
-      "subtype": "JAM_STAND_STILL_TRAFFIC",
-      "street": "BR-101 S Av. do Contorno",
+      "subtype": "ACCIDENT_MAJOR",
+      "street": "Av. Js React",
       "location": {
         "x": -43.110203,
         "y": -22.872691

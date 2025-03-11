@@ -9,15 +9,12 @@ URL_GIS_ENTERPRISE = os.getenv("URL_GIS_ENTERPRISE")
 
 
 def update_point_layers_on_portal(df, credentials, token):
-
     url = f"{URL_GIS_ENTERPRISE}/portal"
 
     GIS(url, token=token)
 
     layer_name = credentials["layer_name"]
     item = credentials["item"]
-
-    # Acessando a feature layer
 
     feature_layer = FeatureLayer(
         f"{URL_GIS_ENTERPRISE}/server/rest/services/{layer_name}/FeatureServer/{item}")
@@ -35,7 +32,6 @@ def update_point_layers_on_portal(df, credentials, token):
             }
             new_features.append(new_feature)
 
-        # Add new features to the layer
         if new_features:
             feature_layer.edit_features(adds=new_features)
             print(f"Adicionadas {len(new_features)} novas features na layer.")

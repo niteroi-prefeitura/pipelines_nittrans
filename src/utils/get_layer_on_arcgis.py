@@ -6,7 +6,7 @@ def get_a_layer_object_agol(credentials, layer_index: int):
     try:
         gis = GIS("https://www.arcgis.com",
                   credentials['agol_username'], credentials['agol_password'])
-        portal_item = gis.content.get(credentials['layer_id'])
+        portal_item = gis.content.get(credentials['layer_id_agol'])
         if not portal_item:
             raise Exception(
                 "Item não encontrado no ArcGIS Portal. Verifique o layer_id.")
