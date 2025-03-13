@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from utils.generate_token import generate_portal_token
-from utils.get_layer_on_arcgis import get_a_layer_object_agol, get_atributes_of_layer_object
+from utils.agol_layers import get_a_layer_object_agol, get_atributes_of_layer_object
 from utils.process_data import process_data_waze_alerts
 from utils.get_api_data import get_api_data_as_json
 from utils.compare_attributes import compare_attributes

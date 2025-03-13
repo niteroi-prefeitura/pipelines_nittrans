@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from utils.process_data import process_data_live_traffic
 from utils.send_email import send_email_error
 from utils.get_api_data import get_api_data_as_json
-from utils.get_layer_on_arcgis import get_a_layer_object_agol
+from utils.agol_layers import get_layer_agol
 from utils.replace_layers_on_arcgis import replace_polyline_layers_on_agol
 
 load_dotenv()
@@ -47,7 +47,7 @@ def main():
 
         df = process_data_live_traffic(json_response)
 
-        traffic_layer = get_a_layer_object_agol(
+        traffic_layer = get_layer_agol(
             credentials_to_get_layer_on_agol, 2)
 
         errors += replace_polyline_layers_on_agol(

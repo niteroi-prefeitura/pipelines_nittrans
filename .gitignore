@@ -3,7 +3,7 @@
 *.pyo
 *.pyd
 __pycache__/
-scripts_waze/
+alerts_env/
 
 # Distribuição de pacotes
 *.egg
