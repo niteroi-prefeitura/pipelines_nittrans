@@ -1,8 +1,10 @@
 import os
 from utils.get_api_data import get_api_data_as_json
 from utils.process_data import parse_api_data, create_ms_timestamp
-from utils.agol_layers import get_layer_agol, query_layer_agol, remove_from_agol, add_features_agol
+from utils.agol_layers import get_layer_agol, query_layer_agol, update_features_agol, add_features_agol
 from utils.compare_attributes import compare_attributes
+import pandas as pd
+import json
 from dotenv import load_dotenv
 """ from prefect.variables import Variable
 from prefect.blocks.system import Secret """
@@ -29,6 +31,8 @@ def main():
     try:
         #Busca Dados na API
         waze_data = get_api_data_as_json(URL_WAZE_API)
+        """ with open("./src/mock_waze_alerts.json", "r", encoding="utf-8") as f:
+            waze_data = json.load(f) """
 
         #Formata os dados para um dataframe compatível com a camada
         df_api = parse_api_data(waze_data)
@@ -73,22 +77,36 @@ def main():
                 }
                 features_to_add.append(new_feature)
 
-            add_features_agol(live_layer, features_to_add)   
+            add_features_agol(live_layer, features_to_add)  
         
         #Quando os itens comparados estiverem presentes apenas na camada live devem ser excluídos da camada live
         # e incluídos na camada de histórico preenchendo o valor dt_saída com a data referente a exclusão
         if only_in_layer is not None and not only_in_layer.empty:   
             """ df_with_endTime = create_ms_timestamp(only_in_layer, 'endTime')         
             remove_from_agol(live_layer,only_in_layer) """     
-            print("only_in_layer:",only_in_layer)
+            print("only_in_layer:")
 
         #Quando os itens comparados estiverem presentes em ambos os dataframes o valor do campo "Atualizado" deve ser preenchido com a data atual
-        if matching_attributes is not None and not matching_attributes.empty:
-            print("matching_attributes:",matching_attributes)
-        
+        if matching_attributes is not None and not matching_attributes.empty: 
+            live_matching = df_live_layer[df_live_layer['uuid'].isin(
+            compared_data["matching_attributes"])] 
+            features_to_update = []
+            
+            for _, row_api in matching_attributes.iterrows():
+                for _, row_live in live_matching.iterrows():
+                    if row_live['uuid'] == row_api['uuid']:
+                        feature = {
+                            "attributes": {
+                                **row_api.to_dict(),
+                                "OBJECTID": row_live["OBJECTID"]
+                                },
+                        }
+                        features_to_update.append(feature)            
+
+            update_features_agol(live_layer,features_to_update)        
 
         else:
-            print("Sem novos acidentes para adicionar ao histórico.")
+            print("Sem novos registros para adicionar ao histórico.")
             return
        
     except Exception as e:

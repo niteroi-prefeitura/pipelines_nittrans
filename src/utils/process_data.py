@@ -123,4 +123,6 @@ def parse_api_data(data):
     'POLICE_VISIBLE': 'Policiamento', 'POLICE_HIDING': 'Policiamento'
     })
 
+    df_alerts.drop(columns=['subtype', 'type','roadType', 'location', 'city', 'country','reportByMunicipalityUser'], axis=1, inplace=True)
+
     return df_alerts

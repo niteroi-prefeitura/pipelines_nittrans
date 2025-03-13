@@ -1,0 +1,1180 @@
+{
+    "features": [
+        {
+            "attributes": {
+                "OBJECTID": 1,
+                "uuid": "d856c6ca-70f4-4e8e-8869-3aad23c4d55e",
+                "Rua": "Av. Almirante Ary Parreiras",
+                "Tipo": "Perigo",
+                "Subtipo": "Buraco",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.904931,
+                "Lng": -43.093848,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 1,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4797185.2157,
+                "y": -2620525.6917
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 2,
+                "uuid": "5b1abfe7-7a1a-43aa-8ed5-6313b030c9de",
+                "Rua": "Av. Visconde do Rio Branco",
+                "Tipo": "Perigo",
+                "Subtipo": "Obra na pista",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.893401,
+                "Lng": -43.123611,
+                "reportRating": 2,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4800498.4177,
+                "y": -2619132.372
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 3,
+                "uuid": "7d7d7b3a-74af-494a-8a0f-287b33ab7c6e",
+                "Rua": "Av. Badger da Silveira",
+                "Tipo": "Perigo",
+                "Subtipo": "Obra na pista",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.896414,
+                "Lng": -43.124581,
+                "reportRating": 0,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4800606.3976,
+                "y": -2619496.4605
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 4,
+                "uuid": "b7854388-e309-4712-9972-5ff0f5cc62a3",
+                "Rua": "Túnel João Sampaio",
+                "Tipo": "Perigo",
+                "Subtipo": "Obra na pista",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.935698,
+                "Lng": -43.085592,
+                "reportRating": 2,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4796266.162,
+                "y": -2624244.2483
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 5,
+                "uuid": "10197163-3c08-42c2-b873-b23a22ff71fe",
+                "Rua": "Av. Jornalista Alberto Francisco Torres",
+                "Tipo": "Perigo",
+                "Subtipo": "Carro parado no acostamento",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.911708,
+                "Lng": -43.109385,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4798914.7866,
+                "y": -2621344.7
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 6,
+                "uuid": "c400e62c-455d-41c0-9d49-8e9a39c5607b",
+                "Rua": "Est. Francisco da Cruz Nunes",
+                "Tipo": "Perigo",
+                "Subtipo": "Obra na pista",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.910701,
+                "Lng": -43.053843,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4792731.8795,
+                "y": -2621223.0003
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 7,
+                "uuid": "44499885-8fe8-41bb-8a7b-1d1a1fbd4362",
+                "Rua": "R. Visconde de Sepetiba",
+                "Tipo": "Perigo",
+                "Subtipo": "Carro parado no acostamento",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.891562,
+                "Lng": -43.11871,
+                "reportRating": 5,
+                "confidence": 0,
+                "reliability": 7,
+                "Tipo_da_rua": 1,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4799952.8409,
+                "y": -2618910.1526
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 8,
+                "uuid": "7c89c19c-f823-4498-9960-f2531ffe762e",
+                "Rua": "Est. Francisco da Cruz Nunes",
+                "Tipo": "Perigo",
+                "Subtipo": "Carro parado no acostamento",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.910543,
+                "Lng": -43.053034,
+                "reportRating": 1,
+                "confidence": 0,
+                "reliability": 6,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4792641.822,
+                "y": -2621203.9055
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 9,
+                "uuid": "5087638f-c7d0-4649-b04b-fb8e0fcea02d",
+                "Rua": "R. Dr. Celestino",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.895168,
+                "Lng": -43.116094,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4799661.6291,
+                "y": -2619345.8939
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 10,
+                "uuid": "1cb1f5d1-6e94-41c0-b30f-9d10d5b8fb27",
+                "Rua": "Al. São Boaventura",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.880791,
+                "Lng": -43.103816,
+                "reportRating": 5,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 7,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4798294.8484,
+                "y": -2617608.6773
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 11,
+                "uuid": "832de0f5-0f80-4d16-b864-53235af67515",
+                "Rua": "Al. São Boaventura",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.881004,
+                "Lng": -43.097835,
+                "reportRating": 5,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 7,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4797629.0465,
+                "y": -2617634.4134
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 12,
+                "uuid": "594d22d0-dc08-434c-aadf-a2185f0e9548",
+                "Rua": "Túnel Roberto Silveira",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.913134,
+                "Lng": -43.099547,
+                "reportRating": 1,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4797819.6255,
+                "y": -2621517.039
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 13,
+                "uuid": "0ae89b4d-24c2-443c-9d3e-1f437004e181",
+                "Rua": "Est. Leopoldo Fróes",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.913321,
+                "Lng": -43.099198,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 6,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4797780.775,
+                "y": -2621539.639
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 14,
+                "uuid": "b33e4dda-c952-46cf-b01d-715d5c33043e",
+                "Rua": "Av. Marquês de Paraná",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.895644,
+                "Lng": -43.112635,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4799276.575,
+                "y": -2619403.4135
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 15,
+                "uuid": "50827767-b4bb-40ab-ba9a-644a3013ab7c",
+                "Rua": "Est. Leopoldo Fróes",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.913533,
+                "Lng": -43.101627,
+                "reportRating": 2,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4798051.17,
+                "y": -2621565.2604
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 16,
+                "uuid": "ab6e95b7-f250-40b1-ae91-e0d6de5e4fd6",
+                "Rua": "Av. Marquês de Paraná",
+                "Tipo": "Trânsito",
+                "Subtipo": "",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.893292,
+                "Lng": -43.113489,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 6,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4799371.6418,
+                "y": -2619119.2006
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 17,
+                "uuid": "de6769e6-e6aa-4cff-beff-55b3a1b9841c",
+                "Rua": "Av. Marquês de Paraná",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.894016,
+                "Lng": -43.113279,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4799348.2647,
+                "y": -2619206.6874
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 18,
+                "uuid": "0ca6039d-6200-4a23-ae11-dce0f1fe7ee8",
+                "Rua": "Est. Leopoldo Fróes",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.91342,
+                "Lng": -43.100749,
+                "reportRating": 2,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4797953.4315,
+                "y": -2621551.6037
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 19,
+                "uuid": "d070eda2-72da-4b7e-9036-5bbf5d50a3a9",
+                "Rua": "R. Noronha Torrezão",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.889742,
+                "Lng": -43.092977,
+                "reportRating": 4,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4797088.2564,
+                "y": -2618690.2322
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 20,
+                "uuid": "630179b1-6237-4f0d-9b81-00686f742621",
+                "Rua": "R. Álvares de Azevedo",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.903066,
+                "Lng": -43.113461,
+                "reportRating": 5,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 1,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4799368.5249,
+                "y": -2620300.3115
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 21,
+                "uuid": "40586ac9-3da3-4cee-9d64-a7dc8a411ae3",
+                "Rua": "R. Álvares de Azevedo",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.902334,
+                "Lng": -43.112646,
+                "reportRating": 5,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 1,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4799277.7995,
+                "y": -2620211.8521
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 22,
+                "uuid": "7dd44640-44c2-4a5e-b591-94ad9fe40a48",
+                "Rua": "R. Joaquim Távora",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.910265,
+                "Lng": -43.101498,
+                "reportRating": 2,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4798036.8098,
+                "y": -2621170.3084
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 23,
+                "uuid": "b429f6fd-fc6c-4f7b-8e33-723fd76b12f4",
+                "Rua": "R. Gavião Peixoto",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.907129,
+                "Lng": -43.106444,
+                "reportRating": 5,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741876575000
+            },
+            "geometry": {
+                "x": -4798587.396,
+                "y": -2620791.3181
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 24,
+                "uuid": "724aedf6-ae6f-4e56-80ba-854115d39521",
+                "Rua": "Av. Quintino Bocaiúva",
+                "Tipo": "Perigo",
+                "Subtipo": "Neve",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.914873,
+                "Lng": -43.095886,
+                "reportRating": 1,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741887373541
+            },
+            "geometry": {
+                "x": -4797412.0848,
+                "y": -2621727.2079
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 25,
+                "uuid": "17680c49-ac0b-4942-8496-c97b5f39b682",
+                "Rua": "R. Jorn. Irineu Marinho",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.909129,
+                "Lng": -43.104361,
+                "reportRating": 5,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": null,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": null,
+                "endTime": null,
+                "Magvar": null,
+                "Atualizado": 1741887373541
+            },
+            "geometry": {
+                "x": -4798355.5175,
+                "y": -2621033.0201
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 26,
+                "uuid": "7c1f0951-ad4c-46fe-867e-f9cdce10a871",
+                "Rua": "Outeiro São João Batista",
+                "Tipo": "Acidente",
+                "Subtipo": "",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.898153,
+                "Lng": -43.125959,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 17,
+                "Pubmillis": 1741884318000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 149,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4800759.79585159,
+                "y": -2619706.60353932
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 27,
+                "uuid": "a37d46b3-555c-4995-891e-1b3e660fb7b0",
+                "Rua": "Túnel Raul Veiga",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.912785,
+                "Lng": -43.09731,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741883556000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 320,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4797570.60375986,
+                "y": -2621474.86047286
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 28,
+                "uuid": "1a50f395-215a-4a24-81d9-dcf5868ed6f9",
+                "Rua": "Av. Marquês de Paraná",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.892222,
+                "Lng": -43.113854,
+                "reportRating": 4,
+                "confidence": 1,
+                "reliability": 8,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741881740000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 167,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4799412.27341554,
+                "y": -2618989.90473582
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 29,
+                "uuid": "deae2fec-fcfd-4da4-ad82-ac2749ad41e7",
+                "Rua": "Av. Marquês de Paraná",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito intenso",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.892879,
+                "Lng": -43.1137,
+                "reportRating": 5,
+                "confidence": 0,
+                "reliability": 6,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741883595000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 167,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4799395.13021396,
+                "y": -2619069.29471424
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 30,
+                "uuid": "17224f36-c3b0-4fae-af89-f0467b751e78",
+                "Rua": "RJ-100 Rod. Prefeito João Sampaio",
+                "Tipo": "Trânsito",
+                "Subtipo": "",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.876488,
+                "Lng": -43.036208,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 7,
+                "Pubmillis": 1741883831000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 115,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4790768.76023341,
+                "y": -2617088.76851613
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 31,
+                "uuid": "d4f4630c-a9bf-4235-b542-820705078dc3",
+                "Rua": "R. Dr. Mário Viana",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.9027,
+                "Lng": -43.097851,
+                "reportRating": 2,
+                "confidence": 0,
+                "reliability": 6,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741882054000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 289,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4797630.82760438,
+                "y": -2620256.08175876
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 32,
+                "uuid": "c3950128-c26b-4c95-85a8-4e2124dd2ef8",
+                "Rua": "Est. Washington Luís",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.905744,
+                "Lng": -43.065393,
+                "reportRating": 1,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741882716000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 228,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4794017.61957221,
+                "y": -2620623.94155852
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 33,
+                "uuid": "841489ba-9649-4806-81f3-f2576eab2b6c",
+                "Rua": "Av. Prefeito Sylvio Picanço",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.921787,
+                "Lng": -43.09483,
+                "reportRating": 2,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741884243000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 20,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4797294.53142269,
+                "y": -2622562.83453625
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 34,
+                "uuid": "720a29fa-16a9-4eae-bc86-af3a85f5fe9a",
+                "Rua": "Pç. dos Expedicionários",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.883229,
+                "Lng": -43.115808,
+                "reportRating": 0,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741884004000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 205,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4799629.79170055,
+                "y": -2617903.25528011
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 35,
+                "uuid": "6929c8d7-9000-4664-883d-6b11d877a442",
+                "Rua": "Mergulhão Ver. José Vicente Filho",
+                "Tipo": "Perigo",
+                "Subtipo": "Obra na pista",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.882756,
+                "Lng": -43.115306,
+                "reportRating": 5,
+                "confidence": 4,
+                "reliability": 10,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741883988000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 70,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4799573.90931617,
+                "y": -2617846.1033542
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 36,
+                "uuid": "b17cf406-cb03-42d8-9f18-171b77d8c4c3",
+                "Rua": "nan",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.880405,
+                "Lng": -43.112381,
+                "reportRating": 1,
+                "confidence": 1,
+                "reliability": 7,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741882959000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 233,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4799248.2998056,
+                "y": -2617562.03827953
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 37,
+                "uuid": "dac16f73-d471-44f4-a20b-3011df1214d6",
+                "Rua": "Túnel Ângela Fernandes",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.893771,
+                "Lng": -43.113473,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741882731000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 163,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4799369.86068955,
+                "y": -2619177.08202775
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 38,
+                "uuid": "6decf889-0009-4e1b-85d5-77a578e3417b",
+                "Rua": "Av. Jansen de Melo",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.885761,
+                "Lng": -43.115397,
+                "reportRating": 2,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741882575000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 167,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4799584.03938983,
+                "y": -2618209.19667156
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 39,
+                "uuid": "ec2926ce-e44f-4c05-85e8-d3690f2cc8b5",
+                "Rua": "Av. Almirante Ary Parreiras",
+                "Tipo": "Via interditada",
+                "Subtipo": "",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.910072,
+                "Lng": -43.10456,
+                "reportRating": 5,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741883415000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 305,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4798377.67006811,
+                "y": -2621146.9837703
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 40,
+                "uuid": "7957011a-aa55-4167-9576-10c1c0242268",
+                "Rua": "Av. Marquês de Paraná",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.895914,
+                "Lng": -43.11262,
+                "reportRating": 0,
+                "confidence": 0,
+                "reliability": 6,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741883589000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 158,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4799274.9051639,
+                "y": -2619436.04031969
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 41,
+                "uuid": "e498aa16-f593-49fa-a509-05852a968638",
+                "Rua": "Av. Prefeito Sylvio Picanço",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.922741,
+                "Lng": -43.094658,
+                "reportRating": 2,
+                "confidence": 0,
+                "reliability": 5,
+                "Tipo_da_rua": 2,
+                "Pubmillis": 1741884197000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 336,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4797275.38447027,
+                "y": -2622678.13840039
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 42,
+                "uuid": "dcd6f6dc-741c-4d3c-908a-bc56e19c10bf",
+                "Rua": "R. Álvares de Azevedo",
+                "Tipo": "Trânsito",
+                "Subtipo": "Trânsito parado",
+                "Cidade": "Niterói",
+                "Pais": "BR",
+                "Lat": -22.902838,
+                "Lng": -43.113216,
+                "reportRating": 3,
+                "confidence": 0,
+                "reliability": 6,
+                "Tipo_da_rua": 1,
+                "Pubmillis": 1741884004000,
+                "endTimeMillis": null,
+                "startTimeMillis": null,
+                "startTime": 1741873560000,
+                "endTime": null,
+                "Magvar": 45,
+                "Atualizado": 1741884369841
+            },
+            "geometry": {
+                "x": -4799341.25158042,
+                "y": -2620272.75853552
+            }
+        }
+    ]
+}

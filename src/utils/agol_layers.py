@@ -39,3 +39,10 @@ def add_features_agol(layer, new_features):
         print(f"{len(new_features)} registros adicionados.")
     else:
         print("Erro ao adicionar registros:", new_features)
+
+def update_features_agol(layer, features): 
+    response = layer.edit_features(updates=features)
+    if response['updateResults']:
+        print(f"{len(features)} registros atualizados.")
+    else:
+        print("Erro ao atualizar registros:", features)
