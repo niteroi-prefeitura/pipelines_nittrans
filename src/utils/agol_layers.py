@@ -14,7 +14,6 @@ def get_layer_agol(credentials, layer_id, layer_index: int):
     except Exception as e:
         raise ValueError(f"Erro ao conectar no ArcGIS: {e}")
 
-
 def query_layer_agol(layer, attributes="*", where="1=1"):
     existing_features_attributes = []
     try:
@@ -26,6 +25,7 @@ def query_layer_agol(layer, attributes="*", where="1=1"):
         raise ValueError(f"Erro ao pegar os atributos da layer: {e}")
 
 def remove_from_agol(layer, df):
+    print('remove agol')
     uuids_to_delete = df['uuid'].tolist()
     response = layer.delete_features(where=f"uuid IN ({', '.join(map(str, uuids_to_delete))})")
     if response['deleteResults']:

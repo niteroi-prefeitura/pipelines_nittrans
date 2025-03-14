@@ -1,36 +1,22 @@
 import pandas as pd
 import datetime
 
-map_column_names = {
-        'id': 'id_alerta',
-        'type': 'tx_tipo_alerta',
-        'subtype': 'tx_subtipo_alerta',
-        'location': 'tx_localizacao',
-        'city': 'tx_cidade',
-        'street': 'tx_rua',
-        'magnitude': 'db_magnitude',
-        'reportRating': 'db_avaliacao_informe',
-        'reportDescription': 'tx_descricao_informe',
-        'reportType': 'tx_tipo_informe',
-        'reportCategory': 'tx_categoria_informe',
-        'thumbsUpCount': 'db_qtde_curtidas',
-        'speed': 'db_velocidade',
-        'reliability': 'db_confiabilidade',
-        'roadType': 'tx_tipo_via',
-        'severity': 'db_severidade',
-        'startTime': 'dt_inicio',
-        'endTime': 'dt_fim',
-        'imageUrl': 'tx_url_imagem',
+map_hist_column_names = {
         'uuid': 'tx_uuid',
+        'Rua': 'tx_rua',
+        'Tipo_da_rua': 'tx_tipo_via',
+        'Tipo': 'tx_tipo_alerta',
+        'Subtipo': 'tx_subtipo_alerta',
+        'reportRating': 'db_avaliacao_informe',
         'reportByMunicipalityUser': 'tx_informe_municipal',
         'confidence': 'db_confianca',
-        'magvar': 'db_direcao_graus',
-        'country': 'tx_pais',
-        'region': 'tx_regiao',
-        'longitude': 'db_longitude',
-        'latitude': 'db_latitude',
-        'datetime': 'dt_data_hora'
-    }
+        'reliability': 'db_confiabilidade',
+        'Atualizado': 'dt_data_hora',
+        'magvar': 'db_direcao_graus',          
+        'startTime': 'dt_entrada',
+##
+        'endTime': 'dt_saida',        
+}
 
 map_tipo_via = {
     1: 'Rua',
@@ -59,9 +45,7 @@ def create_ms_timestamp(df,col_name):
     now = datetime.datetime.now() + datetime.timedelta(hours=3) 
     df[col_name] = now.strftime(format='%d/%m/%Y %H:%M')
     df[col_name] = pd.to_datetime(df[col_name], dayfirst=True).apply(lambda x: int(x.timestamp() * 1000))
-    
-
-
+ 
 def process_data_live_traffic(data):
     df = pd.DataFrame(data['jams'])
 
@@ -90,6 +74,7 @@ def parse_api_data(data):
     df_alerts['reportRating'] = df_alerts['reportRating'].astype(int)
     df_alerts['confidence'] = df_alerts['confidence'].astype(int)
     df_alerts['reliability'] = df_alerts['reliability'].astype(int)
+    df_alerts['reportByMunicipalityUser'] = df_alerts['reportByMunicipalityUser'].astype(str)
     df_alerts['Rua'] = df_alerts['street'].astype(str)
     df_alerts['Lat'] = df_alerts['location'].apply(lambda x: x.get('y') if isinstance(x, dict) else None)
     df_alerts['Lng'] = df_alerts['location'].apply(lambda x: x.get('x') if isinstance(x, dict) else None)
@@ -123,6 +108,13 @@ def parse_api_data(data):
     'POLICE_VISIBLE': 'Policiamento', 'POLICE_HIDING': 'Policiamento'
     })
 
-    df_alerts.drop(columns=['subtype', 'type','roadType', 'location', 'city', 'country','reportByMunicipalityUser'], axis=1, inplace=True)
+    df_alerts.drop(columns=['subtype', 'type','roadType', 'location', 'city', 'country'], axis=1, inplace=True)
 
     return df_alerts
+
+def parse_hist_data(data):
+    df_hist = pd.DataFrame(data)
+    df_hist = df_hist.rename(columns=map_hist_column_names)    
+    df_hist['tx_tipo_via'] = df_hist['tx_tipo_via'].map(map_tipo_via)
+    create_ms_timestamp(df_hist,'dt_data_hora')
+    return df_hist
