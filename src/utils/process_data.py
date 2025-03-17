@@ -1,5 +1,6 @@
 import pandas as pd
 import datetime
+import numpy as np
 
 map_hist_column_names = {
         'uuid': 'tx_uuid',
@@ -114,7 +115,9 @@ def parse_api_data(data):
 
 def parse_hist_data(data):
     df_hist = pd.DataFrame(data)
-    df_hist = df_hist.rename(columns=map_hist_column_names)    
+    df_hist = df_hist.rename(columns=map_hist_column_names)   
+    df_hist.drop(columns=['OBJECTID', 'Cidade', 'Pais', 'Pubmillis', 'endTimeMillis', 'startTimeMillis'], axis=1, inplace=True) 
     df_hist['tx_tipo_via'] = df_hist['tx_tipo_via'].map(map_tipo_via)
+    df_hist['dt_entrada'] = df_hist['dt_entrada'].replace({np.nan: None})
     create_ms_timestamp(df_hist,'dt_data_hora')
     return df_hist

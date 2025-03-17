@@ -33,9 +33,7 @@ URL_HIST_LAYER_PORTAL = os.getenv("URL_HIST_LAYER_PORTAL")
 def main():
     try:
         #Busca Dados na API
-        """ waze_data = get_api_data_as_json(URL_WAZE_API) """
-        with open("./src/mock_waze_alerts.json", "r", encoding="utf-8") as f:
-            waze_data = json.load(f)
+        waze_data = get_api_data_as_json(URL_WAZE_API)
 
         #Formata os dados para um dataframe compatível com a camada
         df_api = parse_api_data(waze_data)
@@ -54,21 +52,20 @@ def main():
         
         #Cria uma "Serie" com apenas os itens que estão presentes no dataframe da API
         only_in_API = df_api[df_api['uuid'].isin(
-            compared_data["only_in_df"])]
+            compared_data["only_in_df"])] if len(compared_data["only_in_df"]) > 0 else pd.DataFrame([])
         
         #Cria uma "Serie" com os itens que estão presentes simultaneamente no dataframe da API e na camada live
         matching_attributes = df_api[df_api['uuid'].isin(
-            compared_data["matching_attributes"])]
+            compared_data["matching_attributes"])] if len(compared_data["matching_attributes"]) > 0 else pd.DataFrame([])
         
         #Cria uma "Serie" com os itens que estão presentes apenas na camada live
         only_in_layer = df_live_layer[df_live_layer['uuid'].isin(
-            compared_data["only_in_layer"])]   
+            compared_data["only_in_layer"])] if len(compared_data["only_in_layer"]) > 0 else pd.DataFrame([])
 
         #Quando os itens comparados estiverem presentes apenas no dataframe da API devem ser incluídos na camada live
         # com preenchendo a data de criação no campo startTime
         if only_in_API is not None and not only_in_API.empty: 
-            print('only_in_api')
-            """ create_ms_timestamp(only_in_API,'startTime')
+            create_ms_timestamp(only_in_API,'startTime')
             features_to_add = []
             for _, row in only_in_API.iterrows():
                 new_feature = {
@@ -81,7 +78,7 @@ def main():
                 }
                 features_to_add.append(new_feature)
 
-            add_features_agol(live_layer, features_to_add) """  
+            add_features_agol(live_layer, features_to_add)  
         
         #Quando os itens comparados estiverem presentes apenas na camada live devem ser excluídos da camada live
         # e incluídos na camada de histórico preenchendo o valor dt_saída com a data referente a exclusão
@@ -90,11 +87,10 @@ def main():
             parsed_data = parse_hist_data(only_in_layer)
 
             acidentes = pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Acidente'])
-            acidentes.to_excel('acidentes.xlsx', index=False)
 
             if len(acidentes) > 0:
                 feats = build_new_hist_feature(acidentes)
-                portal_layer = get_layer_on_portal(URL_HIST_LAYER_PORTAL)
+                portal_layer = get_layer_on_portal(URL_HIST_LAYER_PORTAL)            
                 result = create_new_feature(feats,portal_layer)
                 if result == True:
                     remove_from_agol(live_layer,only_in_layer)  
@@ -102,8 +98,7 @@ def main():
 
         #Quando os itens comparados estiverem presentes em ambos os dataframes o valor do campo "Atualizado" deve ser preenchido com a data atual
         if matching_attributes is not None and not matching_attributes.empty: 
-            print('matching')
-            """ live_matching = df_live_layer[df_live_layer['uuid'].isin(
+            live_matching = df_live_layer[df_live_layer['uuid'].isin(
             compared_data["matching_attributes"])] 
             features_to_update = []
             
@@ -118,11 +113,7 @@ def main():
                         }
                         features_to_update.append(feature)            
 
-            update_features_agol(live_layer,features_to_update) """        
-
-        else:
-            print("Sem modificações a serem feitas nos registros.")
-            return
+            update_features_agol(live_layer,features_to_update)      
        
     except Exception as e:
         error_message = str(e)

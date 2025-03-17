@@ -25,9 +25,10 @@ def query_layer_agol(layer, attributes="*", where="1=1"):
         raise ValueError(f"Erro ao pegar os atributos da layer: {e}")
 
 def remove_from_agol(layer, df):
-    print('remove agol')
     uuids_to_delete = df['uuid'].tolist()
-    response = layer.delete_features(where=f"uuid IN ({', '.join(map(str, uuids_to_delete))})")
+    uuids_formatados = [f"'{uuid}'" for uuid in uuids_to_delete]
+    query = ", ".join(uuids_formatados)
+    response = layer.delete_features(where=f"uuid IN ({query})")
     if response['deleteResults']:
         print(f"{len(uuids_to_delete)} registros removidos.")
     else:

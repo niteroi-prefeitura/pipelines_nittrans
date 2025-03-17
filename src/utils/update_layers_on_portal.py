@@ -22,9 +22,7 @@ def generate_portal_token():
         "f": "json",
     }
 
-    print(params)
-
-    response = requests.post(URL_TO_GENERATE_TOKEN, data=params)
+    response = requests.post(URL_TO_GENERATE_TOKEN, data=params, verify=False)
 
     if response.status_code == 200:
         token_info = response.json()
@@ -34,9 +32,11 @@ def generate_portal_token():
 
 
 def get_layer_on_portal(url_layer):
+    session = requests.Session()
+    session.verify = False 
     url = f"{URL_GIS_ENTERPRISE}/portal"
     token = generate_portal_token()
-    GIS(url, token=token)
+    GIS(url, token=token, verify_cert=False, session=session)
     feature_layer = FeatureLayer(url_layer)
     return feature_layer
 
@@ -44,8 +44,12 @@ def get_layer_on_portal(url_layer):
 def build_new_hist_feature(df):
     new_features = []
     for _, row in df.iterrows():
+        att = row.to_dict()
+        del att['Lng']
+        del att['Lat']
+        ##POSSIVEL PROBLEMA
         new_feature = {
-            "attributes": row.to_dict(),
+            "attributes": att,
             "geometry": {
                 "x": row['Lng'],
                 "y": row['Lat']
@@ -59,8 +63,10 @@ def create_new_feature(new_features,feature_layer):
 
     if new_features:
         try:
-            feature_layer.edit_features(adds=new_features)
-            print(f"Adicionadas {len(new_features)} novas features na layer.")
+            response = feature_layer.edit_features(adds=new_features)
+            if response['addResults']:
+                count_success_true = sum(1 for result in response['addResults'] if result.get('success') == True)
+                print(f"Adicionadas {count_success_true} novas features na layer.")
             return True
         except Exception as e:
             error_message = str(e)
