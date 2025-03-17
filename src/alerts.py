@@ -1,34 +1,34 @@
 import os
 from utils.get_api_data import get_api_data_as_json
-from utils.process_data import parse_api_data, create_ms_timestamp, parse_hist_data
-from utils.agol_layers import get_layer_agol, query_layer_agol, update_features_agol, add_features_agol, remove_from_agol
+from utils.parse_dataframe import parse_api_data, create_ms_timestamp, parse_hist_data
+from utils.agol_layer_methods import get_layer_agol, query_layer_agol, update_features_agol, add_features_agol, remove_from_agol
 from utils.compare_attributes import compare_attributes
-from utils.filter_waze_alerts import filter_by_alert_type
-from utils.update_layers_on_portal import build_new_hist_feature, get_layer_on_portal, create_new_feature
+from utils.portal_layer_methods import build_new_hist_feature, get_layer_on_portal, create_new_feature
 import pandas as pd
-import json
 from dotenv import load_dotenv
-""" from prefect.variables import Variable
-from prefect.blocks.system import Secret """
+from prefect.variables import Variable
+from prefect.blocks.system import Secret
 
-""" secret_block = Secret.load("usuario-integrador-agol")
-user_agol = secret_block.get() """
+secret_block = Secret.load("usuario-integrador-agol")
+secret_block = Secret.load("usuario-pmngeo-portal")
+user_agol = secret_block.get()
+user_portal = secret_block.get()
 load_dotenv()
 
-""" URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL") or Variable.get("url_waze_api")["URL"]
-LAYER_ID_AGOL = os.getenv("LAYER_ID_AGOL") or Variable.get("waze_live_layer_id_agol")["ID"],
+URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL") or Variable.get("url_waze_api")["URL"]
+URL_ACCIDENT_HIST_PORTAL = os.getenv("URL_HIST_LAYER_PORTAL") or Variable.get("url_accident_hist_portal")["URL"]
+LIVE_LAYER_ID_AGOL = os.getenv("LAYER_WAZE_AGOL") or Variable.get("waze_live_layer_id_agol")["ID_TESTE"]
+
 CREDENTIALS_AGOL = {
     "agol_username": os.getenv("AGOL_USERNAME") or user_agol["username"],
     "agol_password": os.getenv("AGOL_PASSWORD") or user_agol["password"],   
-} """
-
-URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL")
-LAYER_ID_AGOL = os.getenv("TESTE_LAYER_AGOL")
-CREDENTIALS_AGOL = {
-    "agol_username": os.getenv("AGOL_USERNAME"),
-    "agol_password": os.getenv("AGOL_PASSWORD"),   
 }
-URL_HIST_LAYER_PORTAL = os.getenv("URL_HIST_LAYER_PORTAL")
+
+CREDENTIALS_PORTAL = {
+    "username": os.getenv("PORTAL_USERNAME") or user_portal["username"],
+    "password": os.getenv("PORTAL_PASSWORD") or user_portal["password"],   
+}
+
 
 def main():
     try:
@@ -40,7 +40,7 @@ def main():
 
         #Busca a camada de alertas no agol
         live_layer = get_layer_agol(
-                CREDENTIALS_AGOL,LAYER_ID_AGOL, 0)
+                CREDENTIALS_AGOL,LIVE_LAYER_ID_AGOL, 0)
         
         #Cria dataframe da camada    
         df_live_layer = query_layer_agol(
@@ -90,7 +90,7 @@ def main():
 
             if len(acidentes) > 0:
                 feats = build_new_hist_feature(acidentes)
-                portal_layer = get_layer_on_portal(URL_HIST_LAYER_PORTAL)            
+                portal_layer = get_layer_on_portal(URL_ACCIDENT_HIST_PORTAL, CREDENTIALS_PORTAL)            
                 result = create_new_feature(feats,portal_layer)
                 if result == True:
                     remove_from_agol(live_layer,only_in_layer)  

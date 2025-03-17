@@ -3,22 +3,20 @@ import requests
 from arcgis.gis import GIS
 from dotenv import load_dotenv
 from arcgis.features import FeatureLayer
+from prefect.variables import Variable
 
 load_dotenv()
+gis_variables = Variable.get("gis_portal_variables")
 
-URL_TO_GENERATE_TOKEN = os.getenv("URL_TO_GENERATE_TOKEN")
-URL_GIS_ENTERPRISE = os.getenv("URL_GIS_ENTERPRISE")
-PORTAL_USERNAME = os.getenv("PORTAL_USERNAME")
-PORTAL_PASSWORD = os.getenv("PORTAL_PASSWORD")
-PORTAL_REFERER = os.getenv("URL_GIS_ENTERPRISE")
+URL_TO_GENERATE_TOKEN = os.getenv("URL_TO_GENERATE_TOKEN") or gis_variables["URL_TO_GENERATE_TOKEN"]
+URL_GIS_ENTERPRISE = os.getenv("URL_GIS_ENTERPRISE") or gis_variables["URL_GIS_ENTERPRISE"]
 
-
-def generate_portal_token():
+def generate_portal_token(credentials):
 
     params = {
-        "username": PORTAL_USERNAME,
-        "password": PORTAL_PASSWORD,
-        "referer": PORTAL_REFERER,
+        "username": credentials['username'],
+        "password": credentials['password'],
+        "referer": URL_GIS_ENTERPRISE,
         "f": "json",
     }
 
@@ -31,11 +29,11 @@ def generate_portal_token():
         print(f"Erro ao gerar token: {response.text}")
 
 
-def get_layer_on_portal(url_layer):
+def get_layer_on_portal(url_layer,credentials):
     session = requests.Session()
     session.verify = False 
     url = f"{URL_GIS_ENTERPRISE}/portal"
-    token = generate_portal_token()
+    token = generate_portal_token(credentials)
     GIS(url, token=token, verify_cert=False, session=session)
     feature_layer = FeatureLayer(url_layer)
     return feature_layer

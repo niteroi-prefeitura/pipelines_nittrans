@@ -1,4 +1,3 @@
-#df_api, "tx_uuid", df_live_layer, "uuid"
 def compare_attributes(df, df_attribute, layer, layer_attribute):
     try:
         df_attributes = set(df[df_attribute])        

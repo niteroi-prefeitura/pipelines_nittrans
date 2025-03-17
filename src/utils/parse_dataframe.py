@@ -46,25 +46,6 @@ def create_ms_timestamp(df,col_name):
     now = datetime.datetime.now() + datetime.timedelta(hours=3) 
     df[col_name] = now.strftime(format='%d/%m/%Y %H:%M')
     df[col_name] = pd.to_datetime(df[col_name], dayfirst=True).apply(lambda x: int(x.timestamp() * 1000))
- 
-def process_data_live_traffic(data):
-    df = pd.DataFrame(data['jams'])
-
-    if df.empty:
-        raise ValueError(f"Erro no processamento de dados: {df}")
-
-    df['Pais'] = "BR"
-    df['Cidade'] = "NITEROI"
-    df['Vel_km_h'] = df['speedKMH']
-    df['Tipo_da_rua'] = df['roadType']
-
-    now = datetime.now()
-    df['Data'] = now.strftime(format='%d/%m/%Y %H:%M')
-    df['Data'] = pd.to_datetime(df['Data'], dayfirst=True)
-    df['Data'] = df['Data'].apply(lambda x: int(x.timestamp() * 1000))
-
-    return df
-
 
 def parse_api_data(data):
     df_alerts = pd.DataFrame(data['alerts'])
