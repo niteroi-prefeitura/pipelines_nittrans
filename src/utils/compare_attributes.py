@@ -1,3 +1,6 @@
+from prefect import task
+
+@task(name="Comparar Atributos df live e df api", description="")
 def compare_attributes(df, df_attribute, layer, layer_attribute):
     try:
         df_attributes = set(df[df_attribute])        

@@ -1,7 +1,8 @@
 from arcgis.gis import GIS
 import pandas as pd
+from prefect import task
 
-
+@task(name="Buscar camada Agol", description="Consulta o ID da camada no Agol")
 def get_layer_agol(credentials, layer_id, layer_index: int):
     try:
         gis = GIS("https://www.arcgis.com",
@@ -14,6 +15,7 @@ def get_layer_agol(credentials, layer_id, layer_index: int):
     except Exception as e:
         raise ValueError(f"Erro ao conectar no ArcGIS: {e}")
 
+@task(name="Criar DF Agol", description="Constrói dataframe baseado nas features da camada")
 def query_layer_agol(layer, attributes="*", where="1=1"):
     existing_features_attributes = []
     try:

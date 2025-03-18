@@ -6,6 +6,7 @@ from utils.compare_attributes import compare_attributes
 from utils.portal_layer_methods import build_new_hist_feature, get_layer_on_portal, create_new_feature
 import pandas as pd
 from dotenv import load_dotenv
+from prefect import task, flow
 from prefect.variables import Variable
 from prefect.blocks.system import Secret
 
@@ -29,7 +30,10 @@ CREDENTIALS_PORTAL = {
     "password": os.getenv("PORTAL_PASSWORD") or user_portal["password"],   
 }
 
+"""logger = get_run_logger()
+    logger.info("Iniciando a tarefa 1")"""
 
+@flow(name="fluxo-hist-alag",log_prints=True)
 def main():
     try:
         #Busca Dados na API

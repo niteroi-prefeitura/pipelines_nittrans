@@ -1,6 +1,7 @@
 import pandas as pd
 import datetime
 import numpy as np
+from prefect import task
 
 map_hist_column_names = {
         'uuid': 'tx_uuid',
@@ -47,6 +48,7 @@ def create_ms_timestamp(df,col_name):
     df[col_name] = now.strftime(format='%d/%m/%Y %H:%M')
     df[col_name] = pd.to_datetime(df[col_name], dayfirst=True).apply(lambda x: int(x.timestamp() * 1000))
 
+@task(name="Tratar dados API e criar DF")
 def parse_api_data(data):
     df_alerts = pd.DataFrame(data['alerts'])
     df_alerts['datetime'] = pd.to_datetime(df_alerts['pubMillis'], unit='ms')
