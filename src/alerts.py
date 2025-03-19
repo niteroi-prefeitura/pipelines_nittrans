@@ -25,7 +25,7 @@ CREDENTIALS_AGOL = {
 }
 
 @flow(name="waze-live-hist",log_prints=True)
-def main():
+def waze_live_hist():
     try:
         logger = get_run_logger()
         logger.info("Iniciando o fluxo")
@@ -79,4 +79,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    waze_live_hist()
