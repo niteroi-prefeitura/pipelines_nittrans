@@ -1,0 +1,78 @@
+import os
+import requests
+from arcgis.gis import GIS
+from dotenv import load_dotenv
+from arcgis.features import FeatureLayer
+from prefect.variables import Variable
+from prefect import task
+
+load_dotenv()
+gis_variables = Variable.get("gis_portal_variables")
+
+URL_TO_GENERATE_TOKEN = os.getenv("URL_TO_GENERATE_TOKEN") or gis_variables["URL_TO_GENERATE_TOKEN"]
+URL_GIS_ENTERPRISE = os.getenv("URL_GIS_ENTERPRISE") or gis_variables["URL_GIS_ENTERPRISE"]
+
+@task(name="Gerar token", description="Gera token para autenticação no portal via api REST")
+def generate_portal_token(credentials):
+
+    params = {
+        "username": credentials['username'],
+        "password": credentials['password'],
+        "referer": URL_GIS_ENTERPRISE,
+        "f": "json",
+    }
+
+    response = requests.post(URL_TO_GENERATE_TOKEN, data=params, verify=False)
+
+    if response.status_code == 200:
+        token_info = response.json()
+        return token_info['token']
+    else:
+        print(f"Erro ao gerar token: {response.text}")
+
+@task(name="Buscar features portal", description="Busca features em camada portal")
+def get_layer_on_portal(url_layer,credentials):
+    session = requests.Session()
+    session.verify = False 
+    url = f"{URL_GIS_ENTERPRISE}/portal"
+    token = generate_portal_token(credentials)
+    GIS(url, token=token, verify_cert=False, session=session)
+    feature_layer = FeatureLayer(url_layer)
+    return feature_layer
+
+@task(name="Construir objeto hist", description="Constrói features no padrão para camada de histórico")
+def build_new_hist_feature(df):
+    new_features = []
+    for _, row in df.iterrows():
+        att = row.to_dict()
+        del att['Lng']
+        del att['Lat']
+        new_feature = {
+            "attributes": att,
+            "geometry": {
+                "x": row['Lng'],
+                "y": row['Lat']
+            }
+        }
+        new_features.append(new_feature)
+
+    return new_features 
+
+@task(name="Criar novas features", description="Modifica camada hist inserindo novas features")    
+def create_new_feature(new_features,feature_layer):
+
+    if new_features:
+        try:
+            response = feature_layer.edit_features(adds=new_features)
+            if response['addResults']:
+                count_success_true = sum(1 for result in response['addResults'] if result.get('success') == True)
+                print(f"Adicionadas {count_success_true} novas features na layer.")
+            return True
+        except Exception as e:
+            error_message = str(e)
+            print(f"Erro durante a criação de features na camada: {error_message}")
+    else:
+        print("Sem features para adicionar.")  
+        return False        
+
+    
