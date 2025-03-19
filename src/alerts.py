@@ -1,12 +1,12 @@
 import os
 from utils.get_api_data import get_api_data_as_json
-from utils.parse_dataframe import parse_api_data, create_ms_timestamp, parse_hist_data
-from utils.agol_layer_methods import get_layer_agol, query_layer_agol, update_features_agol, add_features_agol, remove_from_agol
+from utils.parse_dataframe import parse_api_data
+from utils.agol_layer_methods import get_layer_agol, query_layer_agol
 from utils.compare_attributes import compare_attributes
-from utils.portal_layer_methods import build_new_hist_feature, get_layer_on_portal, create_new_feature
+from utils.tasks import task_only_in_api, task_only_in_layer, task_matching_att
 import pandas as pd
 from dotenv import load_dotenv
-from prefect import task, flow
+from prefect import flow,get_run_logger
 from prefect.variables import Variable
 from prefect.blocks.system import Secret
 
@@ -17,7 +17,6 @@ user_portal = secret_block.get()
 load_dotenv()
 
 URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL") or Variable.get("url_waze_api")["URL"]
-URL_ACCIDENT_HIST_PORTAL = os.getenv("URL_HIST_LAYER_PORTAL") or Variable.get("url_accident_hist_portal")["URL"]
 LIVE_LAYER_ID_AGOL = os.getenv("LAYER_WAZE_AGOL") or Variable.get("waze_live_layer_id_agol")["ID_TESTE"]
 
 CREDENTIALS_AGOL = {
@@ -25,17 +24,11 @@ CREDENTIALS_AGOL = {
     "agol_password": os.getenv("AGOL_PASSWORD") or user_agol["password"],   
 }
 
-CREDENTIALS_PORTAL = {
-    "username": os.getenv("PORTAL_USERNAME") or user_portal["username"],
-    "password": os.getenv("PORTAL_PASSWORD") or user_portal["password"],   
-}
-
-"""logger = get_run_logger()
-    logger.info("Iniciando a tarefa 1")"""
-
-@flow(name="fluxo-hist-alag",log_prints=True)
+@flow(name="waze-live-hist",log_prints=True)
 def main():
     try:
+        logger = get_run_logger()
+        logger.info("Iniciando o fluxo")
         #Busca Dados na API
         waze_data = get_api_data_as_json(URL_WAZE_API)
 
@@ -67,57 +60,18 @@ def main():
             compared_data["only_in_layer"])] if len(compared_data["only_in_layer"]) > 0 else pd.DataFrame([])
 
         #Quando os itens comparados estiverem presentes apenas no dataframe da API devem ser incluídos na camada live
-        # com preenchendo a data de criação no campo startTime
+        # com preenchendo a data de criação no campo startTime        
         if only_in_API is not None and not only_in_API.empty: 
-            create_ms_timestamp(only_in_API,'startTime')
-            features_to_add = []
-            for _, row in only_in_API.iterrows():
-                new_feature = {
-                    "attributes": row.to_dict(),
-                    "geometry": {
-                    "x": float(row['Lng']),
-                    "y": float(row['Lat']),
-                    "spatialReference": {"wkid": 4674} 
-                    }
-                }
-                features_to_add.append(new_feature)
-
-            add_features_agol(live_layer, features_to_add)  
+            task_only_in_api(only_in_API, live_layer)
         
         #Quando os itens comparados estiverem presentes apenas na camada live devem ser excluídos da camada live
         # e incluídos na camada de histórico preenchendo o valor dt_saída com a data referente a exclusão
         if only_in_layer is not None and not only_in_layer.empty:   
-            create_ms_timestamp(only_in_layer, 'endTime')       
-            parsed_data = parse_hist_data(only_in_layer)
-
-            acidentes = pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Acidente'])
-
-            if len(acidentes) > 0:
-                feats = build_new_hist_feature(acidentes)
-                portal_layer = get_layer_on_portal(URL_ACCIDENT_HIST_PORTAL, CREDENTIALS_PORTAL)            
-                result = create_new_feature(feats,portal_layer)
-                if result == True:
-                    remove_from_agol(live_layer,only_in_layer)  
-            
+            task_only_in_layer(only_in_layer, live_layer)            
 
         #Quando os itens comparados estiverem presentes em ambos os dataframes o valor do campo "Atualizado" deve ser preenchido com a data atual
         if matching_attributes is not None and not matching_attributes.empty: 
-            live_matching = df_live_layer[df_live_layer['uuid'].isin(
-            compared_data["matching_attributes"])] 
-            features_to_update = []
-            
-            for _, row_api in matching_attributes.iterrows():
-                for _, row_live in live_matching.iterrows():
-                    if row_live['uuid'] == row_api['uuid']:
-                        feature = {
-                            "attributes": {
-                                **row_api.to_dict(),
-                                "OBJECTID": row_live["OBJECTID"]
-                                },
-                        }
-                        features_to_update.append(feature)            
-
-            update_features_agol(live_layer,features_to_update)      
+            task_matching_att(df_live_layer,compared_data, matching_attributes, live_layer)
        
     except Exception as e:
         error_message = str(e)

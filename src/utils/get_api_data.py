@@ -1,7 +1,7 @@
 import requests
 from prefect import task
 
-@task(name="Buscar dados na API")
+@task(name="Buscar dados API")
 def get_api_data_as_json(url):
     try:
         response = requests.get(url)

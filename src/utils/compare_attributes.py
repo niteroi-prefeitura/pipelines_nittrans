@@ -1,6 +1,6 @@
 from prefect import task
 
-@task(name="Comparar Atributos df live e df api", description="")
+@task(name="Comparar Atributos", description="Compara o dataframe vindo da api e da camada live com base no atributo")
 def compare_attributes(df, df_attribute, layer, layer_attribute):
     try:
         df_attributes = set(df[df_attribute])        
