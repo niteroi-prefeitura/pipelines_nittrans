@@ -11,6 +11,7 @@ def get_layer_agol(credentials, layer_id, layer_index: int):
         if not portal_item:
             raise Exception(
                 "Item não encontrado no ArcGIS Portal. Verifique o layer_id.")
+        print('Sucesso ao buscar camada agol')
         return portal_item.layers[layer_index]
     except Exception as e:
         raise ValueError(f"Erro ao conectar no ArcGIS: {e}")
@@ -22,6 +23,7 @@ def query_layer_agol(layer, attributes="*", where="1=1"):
         existing_features = layer.query(where, out_fields=[attributes]).features
         for feat in existing_features:
             existing_features_attributes.append(feat.attributes)
+        print('Sucesso ao criar DF live')
         return pd.DataFrame(existing_features_attributes)
     except Exception as e:
         raise ValueError(f"Erro ao pegar os atributos da layer: {e}")

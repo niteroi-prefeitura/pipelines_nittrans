@@ -94,7 +94,7 @@ def parse_api_data(data):
         })
 
         df_alerts.drop(columns=['subtype', 'type','roadType', 'location', 'city', 'country'], axis=1, inplace=True)
-
+        print('Sucesso ao preparar dados da api')
         return df_alerts
     
     except Exception as e:

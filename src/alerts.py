@@ -2,7 +2,7 @@ from utils.get_api_data import get_api_data_as_json
 from utils.parse_dataframe import parse_api_data
 from utils.agol_layer_methods import get_layer_agol, query_layer_agol
 from utils.compare_attributes import compare_attributes
-from utils.tasks import task_only_in_api, task_only_in_layer, task_matching_att
+from utils.tasks import sub_only_in_api, sub_only_in_layer, sub_matching_att
 import pandas as pd
 from prefect import flow,get_run_logger
 from prefect.variables import Variable
@@ -57,16 +57,16 @@ def waze_live_hist():
         #Quando os itens comparados estiverem presentes apenas no dataframe da API devem ser incluídos na camada live
         # com preenchendo a data de criação no campo startTime        
         if only_in_API is not None and not only_in_API.empty: 
-            task_only_in_api(only_in_API, live_layer)
+            sub_only_in_api(only_in_API, live_layer)
         
         #Quando os itens comparados estiverem presentes apenas na camada live devem ser excluídos da camada live
         # e incluídos na camada de histórico preenchendo o valor dt_saída com a data referente a exclusão
         if only_in_layer is not None and not only_in_layer.empty:   
-            task_only_in_layer(only_in_layer, live_layer)            
+            sub_only_in_layer(only_in_layer, live_layer)            
 
         #Quando os itens comparados estiverem presentes em ambos os dataframes o valor do campo "Atualizado" deve ser preenchido com a data atual
         if matching_attributes is not None and not matching_attributes.empty: 
-            task_matching_att(df_live_layer,compared_data, matching_attributes, live_layer)
+            sub_matching_att(df_live_layer,compared_data, matching_attributes, live_layer)
        
     except Exception as e:
         error_message = str(e)

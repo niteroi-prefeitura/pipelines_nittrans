@@ -28,11 +28,10 @@ def generate_portal_token(credentials):
         print(f"Erro ao gerar token: {response.text}")
 
 @task(name="Buscar features portal", description="Busca features em camada portal")
-def get_layer_on_portal(url_layer,credentials):
+def get_layer_on_portal(url_layer,token):
     session = requests.Session()
     session.verify = False 
     url = f"{URL_GIS_ENTERPRISE}/portal"
-    token = generate_portal_token(credentials)
     GIS(url, token=token, verify_cert=False, session=session)
     feature_layer = FeatureLayer(url_layer)
     return feature_layer
