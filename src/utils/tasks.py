@@ -1,7 +1,6 @@
-from agol_layer_methods import add_features_agol, remove_from_agol, update_features_agol
-from parse_dataframe import create_ms_timestamp
-from parse_dataframe import parse_api_data, create_ms_timestamp, parse_hist_data
-from portal_layer_methods import build_new_hist_feature, get_layer_on_portal, create_new_feature
+from utils.agol_layer_methods import add_features_agol, remove_from_agol, update_features_agol
+from utils.parse_dataframe import create_ms_timestamp, parse_hist_data
+from utils.portal_layer_methods import build_new_hist_feature, get_layer_on_portal, create_new_feature
 from prefect.variables import Variable
 from prefect import task
 from prefect.blocks.system import Secret
