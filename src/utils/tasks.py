@@ -5,19 +5,16 @@ from prefect.variables import Variable
 from prefect import task
 from prefect.blocks.system import Secret
 import pandas as pd
-from dotenv import load_dotenv
-import os
 
 secret_block = Secret.load("usuario-pmngeo-portal")
 user_portal = secret_block.get()
-load_dotenv()
 
 CREDENTIALS_PORTAL = {
-    "username": os.getenv("PORTAL_USERNAME") or user_portal["username"],
-    "password": os.getenv("PORTAL_PASSWORD") or user_portal["password"],   
+    "username": user_portal["username"],
+    "password": user_portal["password"],   
 }
 
-URL_ACCIDENT_HIST_PORTAL = os.getenv("URL_HIST_LAYER_PORTAL") or Variable.get("url_accident_hist_portal")["URL"]
+URL_ACCIDENT_HIST_PORTAL = Variable.get("url_accident_hist_portal")["URL"]
 
 @task(name="Fluxo dados apenas na api", description="Insere data de entrada, cria features georreferenciadas e adiciona a camada live")
 def task_only_in_api(df_api,live_layer):

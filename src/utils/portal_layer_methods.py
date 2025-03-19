@@ -1,16 +1,13 @@
-import os
 import requests
 from arcgis.gis import GIS
-from dotenv import load_dotenv
 from arcgis.features import FeatureLayer
 from prefect.variables import Variable
 from prefect import task
 
-load_dotenv()
 gis_variables = Variable.get("gis_portal_variables")
 
-URL_TO_GENERATE_TOKEN = os.getenv("URL_TO_GENERATE_TOKEN") or gis_variables["URL_TO_GENERATE_TOKEN"]
-URL_GIS_ENTERPRISE = os.getenv("URL_GIS_ENTERPRISE") or gis_variables["URL_GIS_ENTERPRISE"]
+URL_TO_GENERATE_TOKEN = gis_variables["URL_TO_GENERATE_TOKEN"]
+URL_GIS_ENTERPRISE = gis_variables["URL_GIS_ENTERPRISE"]
 
 @task(name="Gerar token", description="Gera token para autenticação no portal via api REST")
 def generate_portal_token(credentials):
