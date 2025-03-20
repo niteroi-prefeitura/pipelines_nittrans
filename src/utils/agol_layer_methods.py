@@ -1,6 +1,8 @@
 from arcgis.gis import GIS
 import pandas as pd
-from prefect import task
+from prefect import task, get_run_logger
+
+logger = get_run_logger()
 
 @task(name="Buscar camada Agol", description="Consulta o ID da camada live no Agol")
 def get_layer_agol(credentials, layer_id, layer_index: int):
@@ -11,7 +13,7 @@ def get_layer_agol(credentials, layer_id, layer_index: int):
         if not portal_item:
             raise Exception(
                 "Item não encontrado no ArcGIS Portal. Verifique o layer_id.")
-        print('Sucesso ao buscar camada agol')
+        logger.info(f'Sucesso ao buscar camada id:{layer_id} e index:{layer_index} no agol')
         return portal_item.layers[layer_index]
     except Exception as e:
         raise ValueError(f"Erro ao conectar no ArcGIS: {e}")
@@ -23,8 +25,15 @@ def query_layer_agol(layer, attributes="*", where="1=1"):
         existing_features = layer.query(where, out_fields=[attributes]).features
         for feat in existing_features:
             existing_features_attributes.append(feat.attributes)
-        print('Sucesso ao criar DF live')
-        return pd.DataFrame(existing_features_attributes)
+
+        df_existing = pd.DataFrame(existing_features_attributes)
+
+        logger.info('Sucesso ao criar DF live')
+
+        logger.info(f"Amostra dos primeiros registros:\n{df_existing.head(10)}")
+        
+        return df_existing
+    
     except Exception as e:
         raise ValueError(f"Erro ao pegar os atributos da layer: {e}")
 
@@ -35,9 +44,9 @@ def remove_from_agol(layer, df):
     query = ", ".join(uuids_formatados)
     response = layer.delete_features(where=f"uuid IN ({query})")
     if response['deleteResults']:
-        print(f"{len(uuids_to_delete)} registros removidos.")
+        logger.info(f"{len(uuids_to_delete)} registros removidos.")
     else:
-        print("Falha na exclusão dos itens.")
+        logger.info("Falha na exclusão dos itens.")
 
 @task(name="Adicionar features agol", description="Modifica camada live adicionando features")
 def add_features_agol(layer, new_features):

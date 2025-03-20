@@ -1,7 +1,9 @@
 import pandas as pd
 import datetime
 import numpy as np
-from prefect import task
+from prefect import task, get_run_logger
+
+logger = get_run_logger()
 
 map_hist_column_names = {
         'uuid': 'tx_uuid',
@@ -94,7 +96,10 @@ def parse_api_data(data):
         })
 
         df_alerts.drop(columns=['subtype', 'type','roadType', 'location', 'city', 'country'], axis=1, inplace=True)
-        print('Sucesso ao preparar dados da api')
+        
+        logger.info('Sucesso ao preparar dados da api')
+        logger.info(f"Amostra dos primeiros registros:\n{df_alerts.head(10)}")
+
         return df_alerts
     
     except Exception as e:
