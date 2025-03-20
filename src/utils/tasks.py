@@ -8,7 +8,6 @@ import pandas as pd
 
 secret_block = Secret.load("usuario-pmngeo-portal")
 user_portal = secret_block.get()
-logger = get_run_logger()
 his_layers_url = Variable.get("waze_hist_portal_layers")
 
 CREDENTIALS_PORTAL = {
@@ -26,6 +25,7 @@ URL_LANE_CLOSED_HIST_PORTAL = his_layers_url["URL_VIA_FECHADA"]
 
 @flow(name="Fluxo dados apenas na api", description="Insere data de entrada, cria features georreferenciadas e adiciona a camada live")
 def sub_only_in_api(df_api,live_layer):
+    logger = get_run_logger()
     
     logger.info('Inicia fluxo para dados apenas na api')
     
@@ -52,6 +52,7 @@ def sub_only_in_api(df_api,live_layer):
 
 @flow(name="Fluxo dados apenas na live", description="Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live")
 def sub_only_in_layer(df_layer, live_layer):
+    logger = get_run_logger()
 
     logger.info('Inicia fluxo para dados apenas na live')
 
@@ -104,6 +105,7 @@ def sub_only_in_layer(df_layer, live_layer):
 
 @flow(name="Fluxo dados em ambos", description="Seleciona no df_live as features que estão na live e na api , cria features com valores novos, atualiza features na camada live")
 def sub_matching_att(df_live_layer,compared_data, matching_attributes, live_layer):
+    logger = get_run_logger()
     
     logger.info('Inicia fluxo para dados que estão na live e na api')
     
