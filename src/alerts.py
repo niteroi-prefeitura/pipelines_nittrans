@@ -15,6 +15,7 @@ secret_block = Secret.load("usuario-integrador-agol")
 user_agol = secret_block.get()
 logger = get_run_logger()
 
+
 URL_WAZE_API = Variable.get("url_waze_api")["URL"]
 LIVE_LAYER_ID_AGOL = Variable.get("waze_live_layer_id_agol")["ID_TESTE"]
 
@@ -25,6 +26,7 @@ CREDENTIALS_AGOL = {
 
 @task
 def create_artifact(df_or_json,name,type='csv'):
+    logger = get_run_logger()
     json_path = f"/tmp/{name}.json"
     csv_path = f"/tmp/{name}.csv"
     if type != 'csv':

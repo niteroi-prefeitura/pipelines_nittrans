@@ -2,10 +2,9 @@ from arcgis.gis import GIS
 import pandas as pd
 from prefect import task, get_run_logger
 
-logger = get_run_logger()
-
 @task(name="Buscar camada Agol", description="Consulta o ID da camada live no Agol")
 def get_layer_agol(credentials, layer_id, layer_index: int):
+    logger = get_run_logger()
     try:
         gis = GIS("https://www.arcgis.com",
                   credentials['agol_username'], credentials['agol_password'])
@@ -20,6 +19,7 @@ def get_layer_agol(credentials, layer_id, layer_index: int):
 
 @task(name="Criar DF Agol", description="Constrói dataframe baseado nas features da camada live")
 def query_layer_agol(layer, attributes="*", where="1=1"):
+    logger = get_run_logger()
     existing_features_attributes = []
     try:
         existing_features = layer.query(where, out_fields=[attributes]).features
@@ -39,6 +39,7 @@ def query_layer_agol(layer, attributes="*", where="1=1"):
 
 @task(name="Remover features agol", description="Modifica camada live removendo features")
 def remove_from_agol(layer, df):
+    logger = get_run_logger()
     uuids_to_delete = df['uuid'].tolist()
     uuids_formatados = [f"'{uuid}'" for uuid in uuids_to_delete]
     query = ", ".join(uuids_formatados)

@@ -3,8 +3,6 @@ import datetime
 import numpy as np
 from prefect import task, get_run_logger
 
-logger = get_run_logger()
-
 map_hist_column_names = {
         'uuid': 'tx_uuid',
         'Rua': 'tx_rua',
@@ -52,6 +50,7 @@ def create_ms_timestamp(df,col_name):
 
 @task(name="Parse api data", description="Prepara dados vindos da api com o mesmo padrão da camada e cria dataframe")
 def parse_api_data(data):
+    logger = get_run_logger()
     try:
         df_alerts = pd.DataFrame(data['alerts'])
         df_alerts['datetime'] = pd.to_datetime(df_alerts['pubMillis'], unit='ms')
