@@ -22,7 +22,7 @@ CREDENTIALS_AGOL = {
     "agol_password": user_agol["password"],   
 }
 
-@task
+""" @task
 def create_artifact(df_or_json,name,type='csv'):
     logger = get_run_logger()
     json_path = f"/tmp/{name}.json"
@@ -32,15 +32,15 @@ def create_artifact(df_or_json,name,type='csv'):
             json.dump(df_or_json, json_file, indent=4)    
 
         create_markdown_artifact(
-        key=f"{name} JSON",
+        key=f"{name}",
         markdown=f"O arquivo JSON gerado pode ser encontrado aqui: {json_path}"
         )
 
         logger.info("Artefato JSON criado com sucesso!")
     else:
         df_or_json.to_csv(csv_path, index=False)
-        create_markdown_artifact(key=f"{name} CSV", markdown=f"Veja o arquivo gerado: {csv_path}")
-        logger.info("Arquivo CSV criado com sucesso!")
+        create_markdown_artifact(key=f"{name}", markdown=f"Veja o arquivo gerado: {csv_path}")
+        logger.info("Arquivo CSV criado com sucesso!") """
 
 @flow(name="waze-live-hist",log_prints=True)
 def waze_live_hist():
@@ -48,12 +48,12 @@ def waze_live_hist():
         #Busca Dados na API
 
         waze_data = get_api_data_as_json(URL_WAZE_API)
-        create_artifact(waze_data,'api_waze_data', 'json')
+        """ create_artifact(waze_data,'api_waze_data', 'json') """
 
         #Formata os dados para um dataframe compatível com a camada
 
         df_api = parse_api_data(waze_data)
-        create_artifact(df_api,'df_api_waze', 'csv')
+        """ create_artifact(df_api,'df_api_waze', 'csv') """
 
         #Busca a camada de alertas no agol
 
@@ -64,7 +64,7 @@ def waze_live_hist():
 
         df_live_layer = query_layer_agol(
             live_layer)
-        create_artifact(df_live_layer,'df_live_layer', 'csv')
+        """ create_artifact(df_live_layer,'df_live_layer', 'csv') """
         
         #Compara "tx_uuid"'s vindos da API com os "uuid" que já estão na camada live
 
