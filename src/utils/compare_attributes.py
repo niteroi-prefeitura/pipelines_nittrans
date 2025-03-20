@@ -10,7 +10,7 @@ def compare_attributes(df, df_attribute, layer, layer_attribute):
             matching_attributes = df_attributes.intersection(layer_attributes)
             only_in_df = df_attributes - layer_attributes
             only_in_layer = layer_attributes - df_attributes
-            print(f"matching_attributes: len(matching_attributes) registros", f"only_in_df: {len(only_in_df)} registros",f"only_in_layer: len(only_in_layer) registros")
+            print(f"matching_attributes: {len(matching_attributes)} registros", f"only_in_df: {len(only_in_df)} registros",f"only_in_layer: {len(only_in_layer)} registros")
 
             return {
                 "matching_attributes": matching_attributes,
@@ -19,7 +19,7 @@ def compare_attributes(df, df_attribute, layer, layer_attribute):
             }
         
         else:
-            print(f"matching_attributes: len(matching_attributes) registros", f"only_in_df: {len(only_in_df)} registros",f"only_in_layer: len(only_in_layer) registros")
+            print(f"matching_attributes: {len(matching_attributes)} registros", f"only_in_df: {len(only_in_df)} registros",f"only_in_layer: {len(only_in_layer)} registros")
             return {
                 "matching_attributes": [],
                 "only_in_df": df_attributes,

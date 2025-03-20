@@ -1,52 +1,36 @@
-<<<<<<< HEAD
-from agol_layer_methods import add_features_agol, remove_from_agol, update_features_agol
-from parse_dataframe import create_ms_timestamp
-from parse_dataframe import parse_api_data, create_ms_timestamp, parse_hist_data
-from portal_layer_methods import build_new_hist_feature, get_layer_on_portal, create_new_feature
-from prefect.variables import Variable
-from prefect import task
-from prefect.blocks.system import Secret
-import pandas as pd
-from dotenv import load_dotenv
-import os
-
-secret_block = Secret.load("usuario-pmngeo-portal")
-user_portal = secret_block.get()
-load_dotenv()
-
-CREDENTIALS_PORTAL = {
-    "username": os.getenv("PORTAL_USERNAME") or user_portal["username"],
-    "password": os.getenv("PORTAL_PASSWORD") or user_portal["password"],   
-}
-
-URL_ACCIDENT_HIST_PORTAL = os.getenv("URL_HIST_LAYER_PORTAL") or Variable.get("url_accident_hist_portal")["URL"]
-
-@task(name="Fluxo dados apenas na api", description="Insere data de entrada, cria features georreferenciadas e adiciona a camada live")
-def task_only_in_api(df_api,live_layer):
-=======
 from utils.agol_layer_methods import add_features_agol, remove_from_agol, update_features_agol
 from utils.parse_dataframe import create_ms_timestamp, parse_hist_data
 from utils.portal_layer_methods import build_new_hist_feature, get_layer_on_portal, create_new_feature, generate_portal_token
 from prefect.variables import Variable
-from prefect import flow
+from prefect import flow, get_run_logger
 from prefect.blocks.system import Secret
 import pandas as pd
 
 secret_block = Secret.load("usuario-pmngeo-portal")
 user_portal = secret_block.get()
+logger = get_run_logger()
+his_layers_url = Variable.get("waze_hist_portal_layers")
 
 CREDENTIALS_PORTAL = {
     "username": user_portal["username"],
     "password": user_portal["password"],   
 }
 
-URL_ACCIDENT_HIST_PORTAL = Variable.get("url_accident_hist_portal")["URL"]
+URL_ACCIDENT_HIST_PORTAL = his_layers_url["URL_ACIDENTES"]
+URL_POT_HOLE_HIST_PORTAL = his_layers_url["URL_BURACOS"]
+URL_CAR_STOPPED_HIST_PORTAL = his_layers_url["URL_CARRO_PARADO"]
+URL_TRAFFIC_LIGHT_FAULT_HIST_PORTAL = his_layers_url["URL_FALHA_SEMAFORO"]
+URL_CONSTRUCTION_HIST_PORTAL = his_layers_url["URL_OBRA"]
+URL_LANE_CLOSED_HIST_PORTAL = his_layers_url["URL_VIA_FECHADA"]
+
 
 @flow(name="Fluxo dados apenas na api", description="Insere data de entrada, cria features georreferenciadas e adiciona a camada live")
 def sub_only_in_api(df_api,live_layer):
-    print('Inicia fluxo para dados apenas na api')
-    print('only_in_api: Insere data de entrada, cria features georreferenciadas e adiciona a camada live')
->>>>>>> master
+    
+    logger.info('Inicia fluxo para dados apenas na api')
+    
+    logger.info('only_in_api: Insere data de entrada, cria features georreferenciadas e adiciona a camada live')
+    
     try:        
         create_ms_timestamp(df_api,'startTime')
         features_to_add = []
@@ -66,48 +50,65 @@ def sub_only_in_api(df_api,live_layer):
         error_message = str(e)
         print(f"Erro durante a execução only_in_api: {error_message}")
 
-<<<<<<< HEAD
-@task(name="Fluxo dados apenas na live", description="Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live")
-def task_only_in_layer(df_layer, live_layer):
-=======
 @flow(name="Fluxo dados apenas na live", description="Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live")
 def sub_only_in_layer(df_layer, live_layer):
-    print('Inicia fluxo para dados apenas na live')
-    print('only_in_layer: Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live')
->>>>>>> master
+
+    logger.info('Inicia fluxo para dados apenas na live')
+
+    logger.info('only_in_layer: Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live')
+    
     try:
         create_ms_timestamp(df_layer, 'endTime')       
         parsed_data = parse_hist_data(df_layer)
+        token = generate_portal_token(CREDENTIALS_PORTAL)
+        results = []
+        df_list = {}
+        url_list = {
+            "acidentes": URL_ACCIDENT_HIST_PORTAL,
+            "buracos": URL_POT_HOLE_HIST_PORTAL,
+            "semaforo": URL_TRAFFIC_LIGHT_FAULT_HIST_PORTAL,
+            "carro_parado": URL_CAR_STOPPED_HIST_PORTAL,
+            "obras": URL_CONSTRUCTION_HIST_PORTAL,
+            "via_fechada": URL_LANE_CLOSED_HIST_PORTAL
+        }
 
-        acidentes = pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Acidente'])
+        df_list['acidentes'] = pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Acidente'])
+        df_list['buracos'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Buraco'])
+        df_list['carro_parado'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Carro parado na pista' or 'Carro parado no acostamento'])
+        df_list['semaforo'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Falha no semáforo'])
+        df_list['obras'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Obra na pista'])
+        df_list['via_fechada'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Uma via fechada'])
 
-        if len(acidentes) > 0:
-<<<<<<< HEAD
-            feats = build_new_hist_feature(acidentes)
-            portal_layer = get_layer_on_portal(URL_ACCIDENT_HIST_PORTAL, CREDENTIALS_PORTAL)            
-=======
-            print(f'acidentes: {len(acidentes)}')
-            feats = build_new_hist_feature(acidentes)
-            token = generate_portal_token(CREDENTIALS_PORTAL)
-            portal_layer = get_layer_on_portal(URL_ACCIDENT_HIST_PORTAL, token)            
->>>>>>> master
-            result = create_new_feature(feats,portal_layer)
-            if result == True:
-                remove_from_agol(live_layer,df_layer) 
+        for df_nome, df in df_list.items():
+            PORTAL_URL
+            for url_nome, url in url_list.items():
+                if url_nome == df_nome:
+                    PORTAL_URL = url
+
+            if len(df) > 0:
+                logger.info(f'{df_nome}: {len(df)}')
+                feats = build_new_hist_feature(df)
+                portal_layer = get_layer_on_portal(PORTAL_URL, token)            
+                result = create_new_feature(feats,portal_layer)
+                if result == True:
+                    results.append(result)      
+
+        if all(results) == True:
+            remove_from_agol(live_layer,df_layer) 
+        else:
+            logger.info("Os registros antigos não foram removidos")  
 
     except Exception as e:
         error_message = str(e)
         print(f"Erro durante a execução only_in_layer: {error_message}")
 
-<<<<<<< HEAD
-@task(name="Fluxo dados em ambos", description="Seleciona no df_live as features que estão na live e na api , cria features com valores novos, atualiza features na camada live")
-def task_matching_att(df_live_layer,compared_data, matching_attributes, live_layer):
-=======
 @flow(name="Fluxo dados em ambos", description="Seleciona no df_live as features que estão na live e na api , cria features com valores novos, atualiza features na camada live")
 def sub_matching_att(df_live_layer,compared_data, matching_attributes, live_layer):
-    print('Inicia fluxo para dados que estão na live e na api')
-    print('only_in_layer: Seleciona no df_live as features que estão na live e na api , cria features com valores novos, atualiza features na camada live')
->>>>>>> master
+    
+    logger.info('Inicia fluxo para dados que estão na live e na api')
+    
+    logger.info('only_in_layer: Seleciona no df_live as features que estão na live e na api , cria features com valores novos, atualiza features na camada live')
+    
     try:
         live_matching = df_live_layer[df_live_layer['uuid'].isin(
         compared_data["matching_attributes"])] 
