@@ -32,14 +32,14 @@ def create_artifact(df_or_json,name,type='csv'):
             json.dump(df_or_json, json_file, indent=4)    
 
         create_markdown_artifact(
-        name=f"{name} JSON",
-        markdown_content=f"O arquivo JSON gerado pode ser encontrado aqui: {json_path}"
+        key=f"{name} JSON",
+        markdown=f"O arquivo JSON gerado pode ser encontrado aqui: {json_path}"
         )
 
         logger.info("Artefato JSON criado com sucesso!")
     else:
         df_or_json.to_csv(csv_path, index=False)
-        create_markdown_artifact(name=f"{name} CSV", markdown_content=f"Veja o arquivo gerado: {csv_path}")
+        create_markdown_artifact(key=f"{name} CSV", markdown=f"Veja o arquivo gerado: {csv_path}")
         logger.info("Arquivo CSV criado com sucesso!")
 
 @flow(name="waze-live-hist",log_prints=True)
