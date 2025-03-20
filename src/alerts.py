@@ -13,8 +13,6 @@ from utils.tasks import sub_only_in_api, sub_only_in_layer, sub_matching_att
 
 secret_block = Secret.load("usuario-integrador-agol")
 user_agol = secret_block.get()
-logger = get_run_logger()
-
 
 URL_WAZE_API = Variable.get("url_waze_api")["URL"]
 LIVE_LAYER_ID_AGOL = Variable.get("waze_live_layer_id_agol")["ID_TESTE"]
