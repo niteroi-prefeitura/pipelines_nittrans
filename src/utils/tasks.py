@@ -75,13 +75,13 @@ def sub_only_in_layer(df_layer, live_layer):
 
         df_list['acidentes'] = pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Acidente'])
         df_list['buracos'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Buraco'])
-        df_list['carro_parado'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Carro parado na pista' or 'Carro parado no acostamento'])
+        df_list['carro_parado'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Carro parado na pista']) #or 'Carro parado no acostamento'
         df_list['semaforo'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Falha no semáforo'])
         df_list['obras'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Obra na pista'])
         df_list['via_fechada'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Uma via fechada'])
 
         for df_nome, df in df_list.items():
-            PORTAL_URL
+            PORTAL_URL = None
             for url_nome, url in url_list.items():
                 if url_nome == df_nome:
                     PORTAL_URL = url
