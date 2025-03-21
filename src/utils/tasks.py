@@ -66,8 +66,21 @@ def sub_only_in_layer(df_layer, live_layer):
         create_ms_timestamp(df_layer, 'endTime')       
         parsed_data = parse_hist_data(df_layer)
         token = generate_portal_token(CREDENTIALS_PORTAL)
-        df_list = {}
-        url_list = {
+        
+        df_map = {
+            "acidentes": pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Acidente']),
+            "buracos": pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Buraco']),
+            "semaforo": pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Falha no semáforo']),
+            "carro_parado": pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'].isin(['Carro parado na pista','Carro parado no acostamento'])]),
+            "obras": pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Obra na pista']),
+            "via_fechada": pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Uma via fechada']),
+            "policia": pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Polícia']),
+            "alagamento": pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Alagamento']),
+            "perigo_pista": pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Perigo na pista']),
+            "objeto_pista": pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Objeto na pista'])
+        }
+
+        url_map = {
             "acidentes": URL_ACCIDENT_HIST_PORTAL,
             "buracos": URL_POT_HOLE_HIST_PORTAL,
             "semaforo": URL_TRAFFIC_LIGHT_FAULT_HIST_PORTAL,
@@ -80,20 +93,9 @@ def sub_only_in_layer(df_layer, live_layer):
             "objeto_pista": URL_HAZARD_OBJECT_HIST_PORTAL
         }
 
-        df_list['acidentes'] = pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Acidente'])
-        df_list['buracos'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Buraco'])
-        df_list['carro_parado'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'].isin(['Carro parado na pista','Carro parado no acostamento'])])
-        df_list['semaforo'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Falha no semáforo'])
-        df_list['obras'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Obra na pista'])
-        df_list['via_fechada'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Uma via fechada'])
-        df_list['policia'] = pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Polícia'])
-        df_list['alagamento'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Alagamento'])
-        df_list['perigo_pista'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Perigo na pista'])
-        df_list['objeto_pista'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Objeto na pista'])
-
-        for df_nome, df in df_list.items():
+        for df_nome, df in df_map.items():
             PORTAL_URL = None
-            for url_nome, url in url_list.items():
+            for url_nome, url in url_map.items():
                 if url_nome == df_nome:
                     PORTAL_URL = url
 
