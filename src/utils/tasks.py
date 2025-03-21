@@ -56,6 +56,7 @@ def sub_only_in_api(df_api,live_layer):
 
 @flow(name="Fluxo dados apenas na live", description="Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live")
 def sub_only_in_layer(df_layer, live_layer):
+    
     logger = get_run_logger()
 
     logger.info('Inicia fluxo para dados apenas na live')
@@ -103,12 +104,10 @@ def sub_only_in_layer(df_layer, live_layer):
                 logger.info(f'{df_nome}: {len(df)}')
                 feats = build_new_hist_feature(df)
                 portal_layer = get_layer_on_portal(PORTAL_URL, token)            
-                result = create_new_feature(feats,portal_layer)
-                if result == True:
-                    remove_from_agol(live_layer,df)
-                else:
-                    logger.info("Os registros antigos não foram removidos")    
-          
+                create_new_feature(feats,portal_layer)
+                   
+            
+        remove_from_agol(live_layer,df_layer)
 
     except Exception as e:
         error_message = str(e)

@@ -27,7 +27,7 @@ def generate_portal_token(credentials):
     else:
         print(f"Erro ao gerar token: {response.text}")
 
-@task(name="Buscar features portal", description="Busca features em camada portal")
+@task(name="Buscar camada portal", description="Busca camada portal")
 def get_layer_on_portal(url_layer,token):
     session = requests.Session()
     session.verify = False 
@@ -63,7 +63,10 @@ def create_new_feature(new_features,feature_layer):
             if response['addResults']:
                 count_success_true = sum(1 for result in response['addResults'] if result.get('success') == True)
                 print(f"Adicionadas {count_success_true} novas features na layer.")
-            return True
+                return True
+            else:
+                raise Exception("")
+                
         except Exception as e:
             error_message = str(e)
             raise ValueError(f"Erro durante a criação de features na camada: {error_message}")
