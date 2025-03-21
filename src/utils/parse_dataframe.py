@@ -3,7 +3,6 @@ import datetime
 import numpy as np
 import pytz
 from prefect import task, get_run_logger
-from prefect.tasks.defaults import NO_CACHE
 
 map_hist_column_names = {
         'uuid': 'tx_uuid',
@@ -108,7 +107,7 @@ def parse_api_data(data):
         error_message = str(e)
         print(f"Erro durante a execução parse_api_data: {error_message}")
 
-@task(name="Parse hist data", description="Prepara dados vindos da live para formato utilizado na camada hist e cria DF", cache_policy=NO_CACHE)
+@task(name="Parse hist data", description="Prepara dados vindos da live para formato utilizado na camada hist e cria DF")
 def parse_hist_data(data):
     try:
         df_hist = pd.DataFrame(data)
