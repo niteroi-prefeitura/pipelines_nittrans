@@ -15,14 +15,14 @@ CREDENTIALS_PORTAL = {
     "password": user_portal["password"],   
 }
 
-URL_ACCIDENT_HIST_PORTAL = his_layers_url["URL_ACIDENTES"]
-URL_POT_HOLE_HIST_PORTAL = his_layers_url["URL_BURACOS"]
-URL_CAR_STOPPED_HIST_PORTAL = his_layers_url["URL_CARRO_PARADO"]
-URL_TRAFFIC_LIGHT_FAULT_HIST_PORTAL = his_layers_url["URL_FALHA_SEMAFORO"]
-URL_CONSTRUCTION_HIST_PORTAL = his_layers_url["URL_OBRA"]
-URL_LANE_CLOSED_HIST_PORTAL = his_layers_url["URL_VIA_FECHADA"]
+URL_ACCIDENT_HIST_PORTAL = his_layers_url["URL_ACIDENTES"] ##
+URL_POT_HOLE_HIST_PORTAL = his_layers_url["URL_BURACOS"] ##
+URL_CAR_STOPPED_HIST_PORTAL = his_layers_url["URL_CARRO_PARADO"] ##
+URL_TRAFFIC_LIGHT_FAULT_HIST_PORTAL = his_layers_url["URL_FALHA_SEMAFORO"] ##
+URL_CONSTRUCTION_HIST_PORTAL = his_layers_url["URL_OBRA"] ##
+URL_LANE_CLOSED_HIST_PORTAL = his_layers_url["URL_VIA_FECHADA"] ##
 URL_POLICE_HIST_PORTAL = his_layers_url["URL_POLICIA"]
-URL_FLOOD_HIST_PORTAL = his_layers_url["URL_ALAGAMENTO"]
+URL_FLOOD_HIST_PORTAL = his_layers_url["URL_ALAGAMENTO"] ##
 URL_HAZARD_ROAD_HIST_PORTAL = his_layers_url["URL_PERIGO_PISTA"]
 URL_HAZARD_OBJECT_HIST_PORTAL = his_layers_url["URL_OBJETO_PISTA"]
 
@@ -66,7 +66,7 @@ def sub_only_in_layer(df_layer, live_layer):
         create_ms_timestamp(df_layer, 'endTime')       
         parsed_data = parse_hist_data(df_layer)
         token = generate_portal_token(CREDENTIALS_PORTAL)
-        
+
         df_map = {
             "acidentes": pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Acidente']),
             "buracos": pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Buraco']),

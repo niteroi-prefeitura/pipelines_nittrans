@@ -39,8 +39,14 @@ def query_layer_agol(layer, attributes="*", where="1=1"):
 
 @task(name="Remover features agol", description="Modifica camada live removendo features")
 def remove_from_agol(layer, df):
+    
     logger = get_run_logger()
-    uuids_to_delete = df['uuid'].tolist()
+    
+    if 'tx_uuid' in df.columns:
+        uuids_to_delete = df['tx_uuid'].tolist()
+    else:
+        uuids_to_delete = df['uuid'].tolist()
+    
     uuids_formatados = [f"'{uuid}'" for uuid in uuids_to_delete]
     query = ", ".join(uuids_formatados)
     response = layer.delete_features(where=f"uuid IN ({query})")
