@@ -18,4 +18,4 @@ def get_api_data_as_json(url):
         return data
     
     except requests.exceptions.RequestException as e:
-        return f"Erro ao acessar a API: {e}"
+        raise ValueError("Erro ao acessar a API: {e}")

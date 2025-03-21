@@ -105,7 +105,7 @@ def parse_api_data(data):
     
     except Exception as e:
         error_message = str(e)
-        print(f"Erro durante a execução parse_api_data: {error_message}")
+        raise ValueError(f"Erro durante a execução parse_api_data: {error_message}")
 
 @task(name="Parse hist data", description="Prepara dados vindos da live para formato utilizado na camada hist e cria DF")
 def parse_hist_data(data):
@@ -120,4 +120,4 @@ def parse_hist_data(data):
     
     except Exception as e:
         error_message = str(e)
-        print(f"Erro durante a execução parse_hist_data: {error_message}")
+        raise ValueError(f"Erro durante a execução parse_hist_data: {error_message}")

@@ -52,7 +52,7 @@ def sub_only_in_api(df_api,live_layer):
         add_features_agol(live_layer, features_to_add)  
     except Exception as e:
         error_message = str(e)
-        print(f"Erro durante a execução only_in_api: {error_message}")
+        raise ValueError(f"Erro durante a execução only_in_api: {error_message}")
 
 @flow(name="Fluxo dados apenas na live", description="Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live")
 def sub_only_in_layer(df_layer, live_layer):
@@ -112,7 +112,7 @@ def sub_only_in_layer(df_layer, live_layer):
 
     except Exception as e:
         error_message = str(e)
-        print(f"Erro durante a execução only_in_layer: {error_message}")
+        raise ValueError(f"Erro durante a execução only_in_layer: {error_message}")
 
 @flow(name="Fluxo dados em ambos", description="Seleciona no df_live as features que estão na live e na api , cria features com valores novos, atualiza features na camada live")
 def sub_matching_att(df_live_layer,compared_data, matching_attributes, live_layer):
@@ -142,4 +142,4 @@ def sub_matching_att(df_live_layer,compared_data, matching_attributes, live_laye
         
     except Exception as e:
         error_message = str(e)
-        print(f"Erro durante a execução matching_attributes: {error_message}")
+        raise ValueError(f"Erro durante a execução matching_attributes: {error_message}")

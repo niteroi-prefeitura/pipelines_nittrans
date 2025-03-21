@@ -58,7 +58,7 @@ def waze_live_hist():
         #Busca a camada de alertas no agol
 
         live_layer = get_layer_agol(
-                CREDENTIALS_AGOL,LIVE_LAYER_ID_AGOL, 0)
+                CREDENTIALS_AGOL,LIVE_LAYER_ID_AGOL, 1)
         
         #Cria dataframe da camada    
 
@@ -105,7 +105,7 @@ def waze_live_hist():
        
     except Exception as e:
         error_message = str(e)
-        print(f"Erro durante a execução: {error_message}")
+        raise ValueError(f"Erro durante a execução: {error_message}")
 
 
 if __name__ == "__main__":

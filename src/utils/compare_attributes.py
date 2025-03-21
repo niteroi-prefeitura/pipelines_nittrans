@@ -26,6 +26,6 @@ def compare_attributes(df, df_attribute, layer, layer_attribute):
                 "only_in_layer": []
             }
     
-    except Exception as e:
+    except Exception as e:        
         error_message = str(e)
-        print(f"Erro durante a comparação: {error_message}")
+        raise ValueError(f"Erro durante a comparação: {error_message}")

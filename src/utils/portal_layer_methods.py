@@ -66,8 +66,8 @@ def create_new_feature(new_features,feature_layer):
             return True
         except Exception as e:
             error_message = str(e)
-            print(f"Erro durante a criação de features na camada: {error_message}")
-            return False
+            raise ValueError(f"Erro durante a criação de features na camada: {error_message}")
+            
     else:
         print("Sem features para adicionar.")  
         return False        
