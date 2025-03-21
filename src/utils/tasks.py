@@ -21,6 +21,10 @@ URL_CAR_STOPPED_HIST_PORTAL = his_layers_url["URL_CARRO_PARADO"]
 URL_TRAFFIC_LIGHT_FAULT_HIST_PORTAL = his_layers_url["URL_FALHA_SEMAFORO"]
 URL_CONSTRUCTION_HIST_PORTAL = his_layers_url["URL_OBRA"]
 URL_LANE_CLOSED_HIST_PORTAL = his_layers_url["URL_VIA_FECHADA"]
+URL_POLICE_HIST_PORTAL = his_layers_url["URL_POLICIA"]
+URL_FLOOD_HIST_PORTAL = his_layers_url["URL_ALAGAMENTO"]
+URL_HAZARD_ROAD_HIST_PORTAL = his_layers_url["URL_PERIGO_PISTA"]
+URL_HAZARD_OBJECT_HIST_PORTAL = his_layers_url["URL_OBJETO_PISTA"]
 
 
 @flow(name="Fluxo dados apenas na api", description="Insere data de entrada, cria features georreferenciadas e adiciona a camada live")
@@ -62,7 +66,6 @@ def sub_only_in_layer(df_layer, live_layer):
         create_ms_timestamp(df_layer, 'endTime')       
         parsed_data = parse_hist_data(df_layer)
         token = generate_portal_token(CREDENTIALS_PORTAL)
-        results = []
         df_list = {}
         url_list = {
             "acidentes": URL_ACCIDENT_HIST_PORTAL,
@@ -70,19 +73,23 @@ def sub_only_in_layer(df_layer, live_layer):
             "semaforo": URL_TRAFFIC_LIGHT_FAULT_HIST_PORTAL,
             "carro_parado": URL_CAR_STOPPED_HIST_PORTAL,
             "obras": URL_CONSTRUCTION_HIST_PORTAL,
-            "via_fechada": URL_LANE_CLOSED_HIST_PORTAL
+            "via_fechada": URL_LANE_CLOSED_HIST_PORTAL,
+            "policia": URL_POLICE_HIST_PORTAL,
+            "alagamento": URL_FLOOD_HIST_PORTAL,
+            "perigo_pista": URL_HAZARD_ROAD_HIST_PORTAL,
+            "objeto_pista": URL_HAZARD_OBJECT_HIST_PORTAL
         }
 
         df_list['acidentes'] = pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Acidente'])
         df_list['buracos'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Buraco'])
-        df_list['carro_parado'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Carro parado na pista']) #or 'Carro parado no acostamento'
+        df_list['carro_parado'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'].isin(['Carro parado na pista','Carro parado no acostamento'])])
         df_list['semaforo'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Falha no semáforo'])
         df_list['obras'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Obra na pista'])
         df_list['via_fechada'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Uma via fechada'])
-        #alagamento
-        #perigo na pista
-        #policia
-        #objeto na pista
+        df_list['policia'] = pd.DataFrame(parsed_data[parsed_data['tx_tipo_alerta'] == 'Polícia'])
+        df_list['alagamento'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Alagamento'])
+        df_list['perigo_pista'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Perigo na pista'])
+        df_list['objeto_pista'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Objeto na pista'])
 
         for df_nome, df in df_list.items():
             PORTAL_URL = None
