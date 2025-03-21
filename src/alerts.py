@@ -15,7 +15,7 @@ secret_block = Secret.load("usuario-integrador-agol")
 user_agol = secret_block.get()
 
 URL_WAZE_API = Variable.get("url_waze_api")["URL"]
-LIVE_LAYER_ID_AGOL = Variable.get("waze_live_layer_id_agol")["ID_TESTE"]
+LIVE_LAYER_ID_AGOL = Variable.get("waze_live_layer_id_agol")["ID"]
 
 CREDENTIALS_AGOL = {
     "agol_username": user_agol["username"],

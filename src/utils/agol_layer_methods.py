@@ -1,6 +1,7 @@
 from arcgis.gis import GIS
 import pandas as pd
 from prefect import task, get_run_logger
+from prefect.tasks.defaults import NO_CACHE
 
 @task(name="Buscar camada Agol", description="Consulta o ID da camada live no Agol")
 def get_layer_agol(credentials, layer_id, layer_index: int):
@@ -37,11 +38,11 @@ def query_layer_agol(layer, attributes="*", where="1=1"):
     except Exception as e:
         raise ValueError(f"Erro ao pegar os atributos da layer: {e}")
 
-@task(name="Remover features agol", description="Modifica camada live removendo features")
+@task(name="Remover features agol", description="Modifica camada live removendo features", cache_policy=NO_CACHE)
 def remove_from_agol(layer, df):
     
     logger = get_run_logger()
-    
+
     if 'tx_uuid' in df.columns:
         uuids_to_delete = df['tx_uuid'].tolist()
     else:

@@ -3,6 +3,7 @@ from arcgis.gis import GIS
 from arcgis.features import FeatureLayer
 from prefect.variables import Variable
 from prefect import task
+from prefect.tasks.defaults import NO_CACHE
 
 gis_variables = Variable.get("gis_portal_variables")
 
@@ -36,7 +37,7 @@ def get_layer_on_portal(url_layer,token):
     feature_layer = FeatureLayer(url_layer)
     return feature_layer
 
-@task(name="Construir objeto hist", description="Constrói features no padrão para camada de histórico")
+@task(name="Construir objeto hist", description="Constrói features no padrão para camada de histórico", cache_policy=NO_CACHE)
 def build_new_hist_feature(df):
     new_features = []
     for _, row in df.iterrows():

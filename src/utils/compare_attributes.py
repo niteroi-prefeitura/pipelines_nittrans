@@ -1,6 +1,7 @@
 from prefect import task
+from prefect.tasks.defaults import NO_CACHE
 
-@task(name="Comparar Atributos", description="Compara o dataframe vindo da api e da camada live com base no atributo")
+@task(name="Comparar Atributos", description="Compara o dataframe vindo da api e da camada live com base no atributo", cache_policy=NO_CACHE)
 def compare_attributes(df, df_attribute, layer, layer_attribute):
     try:
         df_attributes = set(df[df_attribute])        
