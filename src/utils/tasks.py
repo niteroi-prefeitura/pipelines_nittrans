@@ -79,6 +79,10 @@ def sub_only_in_layer(df_layer, live_layer):
         df_list['semaforo'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Falha no semáforo'])
         df_list['obras'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Obra na pista'])
         df_list['via_fechada'] = pd.DataFrame(parsed_data[parsed_data['tx_subtipo_alerta'] == 'Uma via fechada'])
+        #alagamento
+        #perigo na pista
+        #policia
+        #objeto na pista
 
         for df_nome, df in df_list.items():
             PORTAL_URL = None
@@ -92,12 +96,10 @@ def sub_only_in_layer(df_layer, live_layer):
                 portal_layer = get_layer_on_portal(PORTAL_URL, token)            
                 result = create_new_feature(feats,portal_layer)
                 if result == True:
-                    results.append(result)      
-
-        if all(results) == True:
-            remove_from_agol(live_layer,df_layer) 
-        else:
-            logger.info("Os registros antigos não foram removidos")  
+                    remove_from_agol(live_layer,df)
+                else:
+                    logger.info("Os registros antigos não foram removidos")    
+          
 
     except Exception as e:
         error_message = str(e)
