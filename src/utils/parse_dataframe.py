@@ -1,6 +1,7 @@
 import pandas as pd
 import datetime
 import numpy as np
+import pytz
 from prefect import task, get_run_logger
 
 map_hist_column_names = {
@@ -44,9 +45,10 @@ map_tipo_via = {
 
 
 def create_ms_timestamp(df,col_name):
-    now = datetime.datetime.now() + datetime.timedelta(hours=3) 
-    df[col_name] = now.strftime(format='%d/%m/%Y %H:%M')
-    df[col_name] = pd.to_datetime(df[col_name], dayfirst=True).apply(lambda x: int(x.timestamp() * 1000))
+    brasil_tz = pytz.timezone('America/Sao_Paulo')
+    now = datetime.datetime.now(brasil_tz) 
+    timestamp_ms = int(now.timestamp()*1000)
+    df[col_name] = timestamp_ms
 
 @task(name="Parse api data", description="Prepara dados vindos da api com o mesmo padrão da camada e cria dataframe")
 def parse_api_data(data):
@@ -65,7 +67,7 @@ def parse_api_data(data):
         df_alerts['Lat'] = df_alerts['location'].apply(lambda x: x.get('y') if isinstance(x, dict) else None)
         df_alerts['Lng'] = df_alerts['location'].apply(lambda x: x.get('x') if isinstance(x, dict) else None)
         df_alerts['Tipo_da_rua'] = df_alerts['roadType']
-        df_alerts['Atualizado'] = datetime.datetime.now() + datetime.timedelta(hours=3)   
+        create_ms_timestamp(df_alerts, 'Atualizado')  
 
         df_alerts['Tipo'] = df_alerts['type'].astype(str).replace({
             'ACCIDENT': 'Acidente', 'HAZARD': 'Perigo',
