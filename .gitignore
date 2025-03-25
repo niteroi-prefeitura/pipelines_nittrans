@@ -4,7 +4,7 @@
 *.pyd
 __pycache__/
 alerts_env/
-
+scripts_waze/
 # Distribuição de pacotes
 *.egg
 *.egg-info/
