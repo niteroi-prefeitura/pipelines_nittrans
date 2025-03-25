@@ -27,17 +27,16 @@ URL_HAZARD_ROAD_HIST_PORTAL = his_layers_url["URL_PERIGO_PISTA"]
 URL_HAZARD_OBJECT_HIST_PORTAL = his_layers_url["URL_OBJETO_PISTA"]
 
 
-@flow(name="Fluxo dados apenas na api", description="Insere data de entrada, cria features georreferenciadas e adiciona a camada live")
+@flow(name="Fluxo dados apenas na api")
 def sub_only_in_api(df_api,live_layer):
-    logger = get_run_logger()
-    
-    logger.info('Inicia fluxo para dados apenas na api')
-    
-    logger.info('only_in_api: Insere data de entrada, cria features georreferenciadas e adiciona a camada live')
+
+    logger = get_run_logger()        
+    logger.info('Insere data de entrada, cria features georreferenciadas e adiciona a camada live')
     
     try:        
         create_ms_timestamp(df_api,'startTime')
         features_to_add = []
+
         for _, row in df_api.iterrows():
             new_feature = {
                 "attributes": row.to_dict(),
@@ -54,14 +53,11 @@ def sub_only_in_api(df_api,live_layer):
         error_message = str(e)
         raise ValueError(f"Erro durante a execução only_in_api: {error_message}")
 
-@flow(name="Fluxo dados apenas na live", description="Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live")
+@flow(name="Fluxo dados apenas na live")
 def sub_only_in_layer(df_layer, live_layer):
     
     logger = get_run_logger()
-
-    logger.info('Inicia fluxo para dados apenas na live')
-
-    logger.info('only_in_layer: Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live')
+    logger.info('Insere data de saída, trata dados para formato de histórico, filtra por contexto, insere as features na hist e excluí da live')
     
     try:
         create_ms_timestamp(df_layer, 'endTime')       
@@ -113,13 +109,11 @@ def sub_only_in_layer(df_layer, live_layer):
         error_message = str(e)
         raise ValueError(f"Erro durante a execução only_in_layer: {error_message}")
 
-@flow(name="Fluxo dados em ambos", description="Seleciona no df_live as features que estão na live e na api , cria features com valores novos, atualiza features na camada live")
+@flow(name="Fluxo dados em ambos")
 def sub_matching_att(df_live_layer,compared_data, matching_attributes, live_layer):
-    logger = get_run_logger()
-    
-    logger.info('Inicia fluxo para dados que estão na live e na api')
-    
-    logger.info('only_in_layer: Seleciona no df_live as features que estão na live e na api , cria features com valores novos, atualiza features na camada live')
+
+    logger = get_run_logger()        
+    logger.info('Seleciona no df_live as features que estão na live e na api , cria features com valores novos, atualiza features na camada live')
     
     try:
         live_matching = df_live_layer[df_live_layer['uuid'].isin(

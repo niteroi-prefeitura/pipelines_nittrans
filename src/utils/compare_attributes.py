@@ -1,7 +1,11 @@
-from prefect import task
+from prefect import task, get_run_logger
 
 @task(name="Comparar Atributos", description="Compara o dataframe vindo da api e da camada live com base no atributo")
 def compare_attributes(df, df_attribute, layer, layer_attribute):
+
+    logger = get_run_logger()
+    logger.info(f"{compare_attributes.description}")
+
     try:
         df_attributes = set(df[df_attribute])        
 

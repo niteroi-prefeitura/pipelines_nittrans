@@ -52,7 +52,10 @@ def create_ms_timestamp(df,col_name):
 
 @task(name="Parse api data", description="Prepara dados vindos da api com o mesmo padrão da camada e cria dataframe")
 def parse_api_data(data):
+
     logger = get_run_logger()
+    logger.info(f"{parse_api_data.description}")
+
     try:
         df_alerts = pd.DataFrame(data['alerts'])
         df_alerts['datetime'] = pd.to_datetime(df_alerts['pubMillis'], unit='ms')
@@ -109,6 +112,10 @@ def parse_api_data(data):
 
 @task(name="Parse hist data", description="Prepara dados vindos da live para formato utilizado na camada hist e cria DF")
 def parse_hist_data(data):
+
+    logger = get_run_logger()
+    logger.info(f"{parse_hist_data.description}")
+
     try:
         df_hist = pd.DataFrame(data)
         df_hist = df_hist.rename(columns=map_hist_column_names)   
