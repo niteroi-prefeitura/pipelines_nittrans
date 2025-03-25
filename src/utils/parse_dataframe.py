@@ -15,7 +15,7 @@ map_hist_column_names = {
         'confidence': 'db_confianca',
         'reliability': 'db_confiabilidade',
         'Atualizado': 'dt_data_hora',
-        'magvar': 'db_direcao_graus',          
+        'Magvar': 'db_direcao_graus',          
         'startTime': 'dt_entrada',
 ##
         'endTime': 'dt_saida',        
