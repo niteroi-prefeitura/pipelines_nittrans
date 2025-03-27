@@ -1,11 +1,7 @@
-from prefect import task, get_run_logger
+import datetime
+import pytz
 
-@task(name="Comparar Atributos", description="Compara o dataframe vindo da api e da camada live com base no atributo")
 def compare_attributes(df, df_attribute, layer, layer_attribute):
-
-    logger = get_run_logger()
-    logger.info(f"{compare_attributes.description}")
-
     try:
         df_attributes = set(df[df_attribute])        
 
@@ -22,8 +18,7 @@ def compare_attributes(df, df_attribute, layer, layer_attribute):
                 "only_in_layer": only_in_layer
             }
         
-        else:
-            print(f"matching_attributes: {len(matching_attributes)} registros", f"only_in_df: {len(only_in_df)} registros",f"only_in_layer: {len(only_in_layer)} registros")
+        else:            
             return {
                 "matching_attributes": [],
                 "only_in_df": df_attributes,
@@ -33,3 +28,9 @@ def compare_attributes(df, df_attribute, layer, layer_attribute):
     except Exception as e:        
         error_message = str(e)
         raise ValueError(f"Erro durante a comparação: {error_message}")
+
+def create_ms_timestamp(df,col_name):
+    brasil_tz = pytz.timezone('America/Sao_Paulo')
+    now = datetime.datetime.now(brasil_tz) 
+    timestamp_ms = int(now.timestamp()*1000)
+    df[col_name] = timestamp_ms

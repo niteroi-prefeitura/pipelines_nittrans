@@ -1,63 +1,31 @@
 import pandas as pd
 from prefect import flow
-from prefect.variables import Variable
-from prefect.blocks.system import Secret
 
-from utils.get_api_data import get_api_data_as_json
-from utils.parse_dataframe import parse_api_data
-from utils.agol_layer_methods import get_layer_agol, query_layer_agol
-from utils.compare_attributes import compare_attributes
+from utils.index import compare_attributes
 from sub.hist_alerts import sub_only_in_api, sub_only_in_layer, sub_matching_att
 
-secret_block = Secret.load("usuario-integrador-agol")
-user_agol = secret_block.get()
 
-URL_WAZE_API = Variable.get("url_waze_api")["URL"]
-LIVE_LAYER_ID_AGOL = Variable.get("waze_live_layer_id_agol")["ID"]
-
-CREDENTIALS_AGOL = {
-    "agol_username": user_agol["username"],
-    "agol_password": user_agol["password"],   
-}
-
-@flow(name="waze-live-hist",log_prints=True)
-def waze_live_hist():
+@flow(name="waze-live-alerts")
+def waze_live_alerts(df_api, df_live_layer, live_layer):
     try:
-        #Busca Dados na API
-        waze_data = get_api_data_as_json(URL_WAZE_API)
-
-
-        #Formata os dados para um dataframe compatível com a camada
-        df_api = parse_api_data(waze_data)
-
-
-        #Busca a camada de alertas no agol
-        live_layer = get_layer_agol(
-                CREDENTIALS_AGOL,LIVE_LAYER_ID_AGOL, 1)
-        
-        
-        #Cria dataframe da camada    
-        df_live_layer = query_layer_agol(
-            live_layer)
-        
         
         #Compara "tx_uuid"'s vindos da API com os "uuid" que já estão na camada live
         compared_data = compare_attributes(
-            df_api, "uuid", df_live_layer, "uuid")
+            df_api, "tx_uuid", df_live_layer, "tx_uuid")
         
         
         #Cria uma "Serie" com apenas os itens que estão presentes no dataframe da API
-        only_in_API = df_api[df_api['uuid'].isin(
+        only_in_API = df_api[df_api['tx_uuid'].isin(
             compared_data["only_in_df"])] if len(compared_data["only_in_df"]) > 0 else pd.DataFrame([])
         
         
         #Cria uma "Serie" com os itens que estão presentes simultaneamente no dataframe da API e na camada live
-        matching_attributes = df_api[df_api['uuid'].isin(
+        matching_attributes = df_api[df_api['tx_uuid'].isin(
             compared_data["matching_attributes"])] if len(compared_data["matching_attributes"]) > 0 else pd.DataFrame([])
         
 
         #Cria uma "Serie" com os itens que estão presentes apenas na camada live        
-        only_in_layer = df_live_layer[df_live_layer['uuid'].isin(
+        only_in_layer = df_live_layer[df_live_layer['tx_uuid'].isin(
             compared_data["only_in_layer"])] if len(compared_data["only_in_layer"]) > 0 else pd.DataFrame([])
         
 
@@ -81,6 +49,3 @@ def waze_live_hist():
         error_message = str(e)
         raise ValueError(f"Erro durante a execução: {error_message}")
 
-
-if __name__ == "__main__":
-    waze_live_hist()

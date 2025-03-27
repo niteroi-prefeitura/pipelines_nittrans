@@ -56,13 +56,13 @@ def build_new_hist_feature(df):
 
     for _, row in df.iterrows():
         att = row.to_dict()
-        del att['Lng']
-        del att['Lat']
+        del att['db_long']
+        del att['db_lat']
         new_feature = {
             "attributes": att,
             "geometry": {
-                "x": row['Lng'],
-                "y": row['Lat']
+                "x": row['db_long'],
+                "y": row['db_lat']
             }
         }
 

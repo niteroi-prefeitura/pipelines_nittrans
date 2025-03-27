@@ -34,7 +34,7 @@ def query_layer_agol(layer, attributes="*", where="1=1"):
 
     try:
         existing_features = layer.query(where, out_fields=[attributes]).features
-
+        
         for feat in existing_features:
             existing_features_attributes.append(feat.attributes)
 
@@ -55,21 +55,19 @@ def remove_from_agol(layer, df):
     logger = get_run_logger()
     logger.info(f"{remove_from_agol.description}")
 
-    if 'tx_uuid' in df.columns:
-        uuids_to_delete = df['tx_uuid'].tolist()
-    else:
-        uuids_to_delete = df['uuid'].tolist()
+    uuids_to_delete = df['tx_uuid'].tolist()
     
     uuids_formatados = [f"'{uuid}'" for uuid in uuids_to_delete]
 
     query = ", ".join(uuids_formatados)
 
-    response = layer.delete_features(where=f"uuid IN ({query})")
+    response = layer.delete_features(where=f"tx_uuid IN ({query})")
 
     if response['deleteResults']:
         logger.info(f"{len(uuids_to_delete)} registros removidos.")
+        return True
     else:
-        logger.info("Falha na exclusão dos itens.")
+        raise ValueError(f"Falha na exclusão dos itens.")
 
 @task(name="Adicionar features agol", description="Modifica camada live adicionando features")
 def add_features_agol(layer, new_features):
@@ -82,7 +80,7 @@ def add_features_agol(layer, new_features):
     if response['addResults']:
         logger.info(f"{len(new_features)} registros adicionados.")
     else:
-        logger.info("Erro ao adicionar registros:", new_features)
+        raise ValueError(f"Erro ao adicionar registros:", new_features)
 
 @task(name="Atualizar features agol", description="Modifica camada live atualizando features")
 def update_features_agol(layer, features): 
