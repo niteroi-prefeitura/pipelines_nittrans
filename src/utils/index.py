@@ -34,3 +34,17 @@ def create_ms_timestamp(df,col_name):
     now = datetime.datetime.now(brasil_tz) 
     timestamp_ms = int(now.timestamp()*1000)
     df[col_name] = timestamp_ms
+
+def type_mapping(type):
+     type_dict = {
+          'tx': 'str',
+          'db': 'float',
+          'li': 'int',
+     }
+     return type_dict[type]
+    
+def df_col_type_mapping(df):
+    for col in df.columns:
+        col_type = col.split('_')[0]
+        if len(col.split('_')) > 1 and col_type != 'dt':                
+            df[col] = df[col].astype(type_mapping(col_type))

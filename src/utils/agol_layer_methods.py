@@ -77,8 +77,6 @@ def add_features_agol(layer, new_features):
 
     response = layer.edit_features(adds=new_features)
 
-    print(f'resposta add feat: {response}')
-
     if response['addResults']:
         logger.info(f"{len(new_features)} registros adicionados.")
     else:

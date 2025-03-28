@@ -1,5 +1,4 @@
 from utils.agol_layer_methods import add_features_agol, remove_from_agol, update_features_agol
-from tasks.parse_to_dataframe import parse_hist_data
 from utils.index import create_ms_timestamp
 from utils.portal_layer_methods import build_new_hist_feature, get_layer_on_portal, create_new_feature, generate_portal_token
 from prefect.variables import Variable

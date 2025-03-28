@@ -5,7 +5,7 @@ from utils.index import compare_attributes
 from sub.hist_alerts import sub_only_in_api, sub_only_in_layer, sub_matching_att
 
 
-@flow(name="waze-live-alerts")
+@flow(name="Fluxo live alerts", description="Atualiza camada de alertas live e inicia fluxos de histórico")
 def waze_live_alerts(df_api, df_live_layer, live_layer):
     try:
         

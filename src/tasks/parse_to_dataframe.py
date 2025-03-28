@@ -1,24 +1,6 @@
 import pandas as pd
-import numpy as np
-from utils.index import create_ms_timestamp
+from utils.index import create_ms_timestamp, df_col_type_mapping
 from prefect import task, get_run_logger
-
-map_hist_column_names = {
-        'uuid': 'tx_uuid',
-        'Rua': 'tx_rua',
-        'Tipo_da_rua': 'tx_tipo_via',
-        'Tipo': 'tx_tipo_alerta',
-        'Subtipo': 'tx_subtipo_alerta',
-        'reportRating': 'db_avaliacao_informe',
-        'reportByMunicipalityUser': 'tx_informe_municipal',
-        'confidence': 'db_confianca',
-        'reliability': 'db_confiabilidade',
-        'Atualizado': 'dt_data_hora',
-        'Magvar': 'db_direcao_graus',          
-        'startTime': 'dt_entrada',
-##
-        'endTime': 'dt_saida',        
-}
 
 map_tipo_via = {
     1: 'Rua',
@@ -48,12 +30,12 @@ map_shared_columns = {
     'roadType':'tx_tipo_via',
 }
 map_alerts_columns = {
-    'reportRating': 'db_avaliacao_informe',
+    'reportRating': 'li_avaliacao_informe',
     'reportByMunicipalityUser': 'tx_informe_municipal',
-    'confidence': 'db_confianca',
-    'reliability': 'db_confiabilidade',
+    'confidence': 'li_confianca',
+    'reliability': 'li_confiabilidade',
     'type': 'tx_tipo_alerta',
-    'magvar': 'db_direcao_graus',
+    'magvar': 'li_direcao_graus',
     'subtype': 'tx_subtipo_alerta'
 }
 map_traffic_columns = {
@@ -98,12 +80,11 @@ def parse_live_alerts(api_data):
         create_ms_timestamp(df_alerts, 'dt_data_hora')
         df_alerts = df_alerts.rename(columns={**map_shared_columns, **map_alerts_columns}) 
         df_alerts['tx_tipo_via'] = df_alerts['tx_tipo_via'].map(map_tipo_via)
-        df_alerts['tx_uuid'] = df_alerts['tx_uuid'].astype(str)
-        df_alerts['tx_tipo_alerta'] = df_alerts['tx_tipo_alerta'].astype(str).replace({
+        df_alerts['tx_tipo_alerta'] = df_alerts['tx_tipo_alerta'].replace({
             'ACCIDENT': 'Acidente', 'HAZARD': 'Perigo',
             'ROAD_CLOSED': 'Via interditada', 'JAM': 'Trânsito', 'POLICE': 'Polícia'
         })
-        df_alerts['tx_subtipo_alerta'] = df_alerts['tx_subtipo_alerta'].astype(str).replace({
+        df_alerts['tx_subtipo_alerta'] = df_alerts['tx_subtipo_alerta'].replace({
 
         'ACCIDENT_MINOR': 'Acidente leve', 'ACCIDENT_MAJOR': 'Acidente grave',
         'HAZARD_ON_ROAD': 'Perigo na pista', 'HAZARD_ON_ROAD_EMERGENCY_VEHICLE': 'Veículo de emergência na pista',
@@ -127,39 +108,13 @@ def parse_live_alerts(api_data):
         df_alerts['db_lat'] = df_alerts['location'].apply(lambda x: x.get('y') if isinstance(x, dict) else None)
         df_alerts['db_long'] = df_alerts['location'].apply(lambda x: x.get('x') if isinstance(x, dict) else None) 
         df_alerts.drop(columns=['pubMillis','location', 'city', 'country'], axis=1, inplace=True)
+        df_col_type_mapping(df_alerts) 
 
         return df_alerts
     
     except Exception as e:
         error_message = str(e)
         raise ValueError(f"Erro ao preparar dados api alerts: {error_message}")
-
-@task(name="Parse hist data", description="Prepara dados vindos da live para formato utilizado na camada hist e cria DF")
-def parse_hist_data(data):
-
-    logger = get_run_logger()
-    logger.info(f"{parse_hist_data.description}")
-
-    try:
-        df_hist = pd.DataFrame(data)
-        df_hist = df_hist.rename(columns=map_hist_column_names)   
-        df_hist.drop(columns=['OBJECTID', 'Cidade', 'Pais', 'Pubmillis', 'endTimeMillis', 'startTimeMillis'], axis=1, inplace=True) 
-        df_hist['tx_tipo_via'] = df_hist['tx_tipo_via'].map(map_tipo_via)
-        df_hist['dt_entrada'] = df_hist['dt_entrada'].replace({np.nan: None})
-        create_ms_timestamp(df_hist,'dt_data_hora')
-        return df_hist
-    
-    except Exception as e:
-        error_message = str(e)
-        raise ValueError(f"Erro durante a execução parse_hist_data: {error_message}")
-    
-def resolve_type_mapping(type):
-     type_dict = {
-          'tx': 'str',
-          'db': 'float',
-          'li': 'int',
-     }
-     return type_dict[type]
     
 def parse_traffic_live_data(api_data):
 
@@ -169,13 +124,8 @@ def parse_traffic_live_data(api_data):
         })
         create_ms_timestamp(df_traffic,'dt_data_hora')
         df_traffic['tx_tipo_via'] = df_traffic['tx_tipo_via'].map(map_tipo_via)
-        df_traffic['tx_uuid'] = df_traffic['tx_uuid']    
         df_traffic.drop(columns=['pubMillis','segments'], axis=1, inplace=True)
-
-        for col in df_traffic.columns:
-            col_type = col.split('_')[0]
-            if len(col.split('_')) > 1 and col_type != 'dt':                
-                df_traffic[col] = df_traffic[col].astype(resolve_type_mapping(col_type))
+        df_col_type_mapping(df_traffic)        
 
         return df_traffic
 
