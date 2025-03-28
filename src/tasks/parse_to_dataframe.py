@@ -153,6 +153,14 @@ def parse_hist_data(data):
         error_message = str(e)
         raise ValueError(f"Erro durante a execução parse_hist_data: {error_message}")
     
+def resolve_type_mapping(type):
+     type_dict = {
+          'tx': 'str',
+          'db': 'float',
+          'li': 'int',
+     }
+     return type_dict[type]
+    
 def parse_traffic_live_data(api_data):
 
     try:
@@ -161,8 +169,13 @@ def parse_traffic_live_data(api_data):
         })
         create_ms_timestamp(df_traffic,'dt_data_hora')
         df_traffic['tx_tipo_via'] = df_traffic['tx_tipo_via'].map(map_tipo_via)
-        df_traffic['tx_uuid'] = df_traffic['tx_uuid'].astype(str)        
+        df_traffic['tx_uuid'] = df_traffic['tx_uuid']    
         df_traffic.drop(columns=['pubMillis','segments'], axis=1, inplace=True)
+
+        for col in df_traffic.columns:
+            col_type = col.split('_')[0]
+            if len(col.split('_')) > 1 and col_type != 'dt':                
+                df_traffic[col] = df_traffic[col].astype(resolve_type_mapping(col_type))
 
         return df_traffic
 
