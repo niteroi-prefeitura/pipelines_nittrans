@@ -58,8 +58,11 @@ def parse_api_data(data):
 
     try:
 
-        df_api_alerts = parse_live_alerts(data['alerts'])
-        df_api_traffic = parse_traffic_live_data(data['jams'])
+        if "alerts" in data and isinstance(data["alerts"], list) and data["alerts"]:
+            df_api_alerts = parse_live_alerts(data['alerts'])
+        
+        if "jams" in data and isinstance(data["jams"], list) and data["jams"]:
+            df_api_traffic = parse_traffic_live_data(data['jams'])
         
         
         logger.info('Sucesso ao preparar dados da api')
