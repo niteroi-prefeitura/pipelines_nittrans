@@ -60,16 +60,19 @@ def parse_api_data(data):
 
         if "alerts" in data and isinstance(data["alerts"], list) and data["alerts"]:
             df_api_alerts = parse_live_alerts(data['alerts'])
+        else:
+             df_api_alerts = pd.DataFrame([])
         
         if "jams" in data and isinstance(data["jams"], list) and data["jams"]:
             df_api_traffic = parse_traffic_live_data(data['jams'])
-        
+        else:
+            df_api_traffic = pd.DataFrame([])
         
         logger.info('Sucesso ao preparar dados da api')
         
         return {
             "alerts": df_api_alerts, 
-            "traffic":df_api_traffic
+            "traffic": df_api_traffic
             }
         
     
@@ -135,3 +138,16 @@ def parse_traffic_live_data(api_data):
     except Exception as e:
             error_message = str(e)
             raise ValueError(f"Erro ao preparar dados api traffic: {error_message}")
+    
+@task(name="Parse api data to traffic", description="Prepara dados vindos da api para padrão da camada de histórico")
+def parse_traffic_hist_data(data):
+
+    if "jams" in data and isinstance(data["jams"], list) and data["jams"]:
+        df_api_traffic = parse_traffic_live_data(data['jams'])
+    else:
+        df_api_traffic = pd.DataFrame([])
+
+    df_api_traffic['line'] = df_api_traffic['line'].apply(lambda x: str(x))
+    df_api_traffic = df_api_traffic.rename(columns={"line": "tx_geometria"})
+
+    return df_api_traffic
