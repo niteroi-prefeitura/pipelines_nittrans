@@ -43,8 +43,11 @@ def waze_live():
         df_live_traffic_layer = query_layer_agol(
             live_traffic_layer)
         
-        waze_live_alerts(dfs_api["alerts"], df_live_alerts_layer, live_alerts_layer)
-        waze_live_traffic(dfs_api["traffic"], df_live_traffic_layer, live_traffic_layer)
+        if not dfs_api["alerts"].empty:
+            waze_live_alerts(dfs_api["alerts"], df_live_alerts_layer, live_alerts_layer)
+
+        if not dfs_api["traffic"].empty:      
+            waze_live_traffic(dfs_api["traffic"], df_live_traffic_layer, live_traffic_layer)
         
        
     except Exception as e:
