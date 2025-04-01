@@ -34,7 +34,7 @@ def waze_traffic_hist():
 
         parsed_data = parse_traffic_hist_data(waze_data)
 
-        filtered_df = parsed_data[parsed_data["li_nivel"] >= 4]
+        filtered_df = parsed_data[parsed_data["li_nivel"] >= 4] if not parsed_data.empty else parsed_data
 
         if not filtered_df.empty:
 

@@ -144,10 +144,11 @@ def parse_traffic_hist_data(data):
 
     if "jams" in data and isinstance(data["jams"], list) and data["jams"]:
         df_api_traffic = parse_traffic_live_data(data['jams'])
+        df_api_traffic['line'] = df_api_traffic['line'].apply(lambda x: str(x))
+        df_api_traffic = df_api_traffic.rename(columns={"line": "tx_geometria"})
     else:
         df_api_traffic = pd.DataFrame([])
 
-    df_api_traffic['line'] = df_api_traffic['line'].apply(lambda x: str(x))
-    df_api_traffic = df_api_traffic.rename(columns={"line": "tx_geometria"})
+    
 
     return df_api_traffic
