@@ -9,11 +9,12 @@ import os
 
 load_dotenv()
 gis_variables = Variable.get("gis_portal_variables")
+his_layers_url = Variable.get("waze_hist_portal_layers")
 user_agol = Secret.load("usuario-integrador-agol").get()
 user_portal = Secret.load("usuario-pmngeo-portal").get()
 
 URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL") or Variable.get("url_waze_api")["URL"]
-URL_TRAFFIC_HIST_PORTAL = os.getenv("URL_TRAFFIC_HIST_PORTAL") or Variable.get("waze_hist_portal_layers")
+URL_TRAFFIC_HIST_PORTAL = os.getenv("URL_TRAFFIC_HIST_PORTAL") or his_layers_url["URL_TRAFEGO"]
 URL_TO_GENERATE_TOKEN = os.getenv("URL_TO_GENERATE_TOKEN") or gis_variables["URL_TO_GENERATE_TOKEN"]
 URL_GIS_ENTERPRISE = os.getenv("URL_GIS_ENTERPRISE") or gis_variables["URL_GIS_ENTERPRISE"]
 
