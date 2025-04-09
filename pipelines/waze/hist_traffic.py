@@ -9,10 +9,8 @@ import os
 
 load_dotenv()
 gis_variables = Variable.get("gis_portal_variables")
-secret_block = Secret.load("usuario-pmngeo-portal")
-secret_block = Secret.load("usuario-integrador-agol")
-user_agol = secret_block.get()
-user_portal = secret_block.get()
+user_agol = Secret.load("usuario-integrador-agol").get()
+user_portal = Secret.load("usuario-pmngeo-portal").get()
 
 URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL") or Variable.get("url_waze_api")["URL"]
 URL_TRAFFIC_HIST_PORTAL = os.getenv("URL_TRAFFIC_HIST_PORTAL") or Variable.get("waze_hist_portal_layers")
@@ -31,7 +29,7 @@ CREDENTIALS_PORTAL = {
 
 
 
-@flow(name="waze_traffic_hist",log_prints=True)
+@flow(name="Histórico de Tráfego",log_prints=True)
 def waze_traffic_hist():
     try:
         waze_data = get_api_data_as_json(URL_WAZE_API)

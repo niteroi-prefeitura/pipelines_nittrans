@@ -20,7 +20,7 @@ CREDENTIALS_AGOL = {
     "agol_password": user_agol["password"],   
 }
 
-@flow(name="waze_live",log_prints=True)
+@flow(name="Waze Alertas + Tráfego Live",log_prints=True)
 def waze_live():
     try:
         #Busca Dados na API
