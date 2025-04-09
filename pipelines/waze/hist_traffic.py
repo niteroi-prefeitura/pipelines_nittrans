@@ -1,33 +1,37 @@
 from prefect import flow
 from prefect.variables import Variable
 from prefect.blocks.system import Secret
-
+from dotenv import load_dotenv
 from tasks.get_api_data import get_api_data_as_json
 from tasks.parse_to_dataframe import parse_traffic_hist_data
 from utils.portal_layer_methods import get_layer_on_portal, generate_portal_token, create_new_feature
+import os
 
+load_dotenv()
+gis_variables = Variable.get("gis_portal_variables")
+secret_block = Secret.load("usuario-pmngeo-portal")
 secret_block = Secret.load("usuario-integrador-agol")
 user_agol = secret_block.get()
-
-secret_block = Secret.load("usuario-pmngeo-portal")
 user_portal = secret_block.get()
 
-his_layers_url = Variable.get("waze_hist_portal_layers")
-URL_WAZE_API = Variable.get("url_waze_api")["URL"]
+URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL") or Variable.get("url_waze_api")["URL"]
+URL_TRAFFIC_HIST_PORTAL = os.getenv("URL_TRAFFIC_HIST_PORTAL") or Variable.get("waze_hist_portal_layers")
+URL_TO_GENERATE_TOKEN = os.getenv("URL_TO_GENERATE_TOKEN") or gis_variables["URL_TO_GENERATE_TOKEN"]
+URL_GIS_ENTERPRISE = os.getenv("URL_GIS_ENTERPRISE") or gis_variables["URL_GIS_ENTERPRISE"]
 
 CREDENTIALS_AGOL = {
-    "agol_username": user_agol["username"],
-    "agol_password": user_agol["password"],   
+    "agol_username": os.getenv("AGOL_USERNAME") or user_agol["username"],
+    "agol_password": os.getenv("AGOL_PASSWORD") or user_agol["password"],   
 }
 
 CREDENTIALS_PORTAL = {
-    "username": user_portal["username"],
-    "password": user_portal["password"],   
+    "username": os.getenv("PORTAL_USERNAME") or user_portal["username"],
+    "password": os.getenv("PORTAL_PASSWORD") or user_portal["password"],   
 }
 
-URL_TRAFFIC_HIST_PORTAL = his_layers_url["URL_TRAFEGO"]
 
-@flow(name="waze-traffic-hist",log_prints=True)
+
+@flow(name="waze_traffic_hist",log_prints=True)
 def waze_traffic_hist():
     try:
         waze_data = get_api_data_as_json(URL_WAZE_API)
@@ -47,9 +51,9 @@ def waze_traffic_hist():
                     "attributes": att
                 })
             
-            token = generate_portal_token(CREDENTIALS_PORTAL)
+            token = generate_portal_token(CREDENTIALS_PORTAL, URL_GIS_ENTERPRISE, URL_TO_GENERATE_TOKEN)
 
-            portal_layer = get_layer_on_portal(URL_TRAFFIC_HIST_PORTAL, token) 
+            portal_layer = get_layer_on_portal(URL_TRAFFIC_HIST_PORTAL, token, URL_GIS_ENTERPRISE) 
 
             create_new_feature(hist_feats,portal_layer)
         else:

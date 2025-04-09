@@ -1,16 +1,11 @@
 import requests
 from arcgis.gis import GIS
 from arcgis.features import FeatureLayer
-from prefect.variables import Variable
 from prefect import task, get_run_logger
 
-gis_variables = Variable.get("gis_portal_variables")
-
-URL_TO_GENERATE_TOKEN = gis_variables["URL_TO_GENERATE_TOKEN"]
-URL_GIS_ENTERPRISE = gis_variables["URL_GIS_ENTERPRISE"]
 
 @task(name="Gerar token", description="Gera token para autenticação no portal via api REST")
-def generate_portal_token(credentials):
+def generate_portal_token(credentials, url_gis_enterprise, url_to_generate_token):
 
     logger = get_run_logger()
     logger.info(f"{generate_portal_token.description}")
@@ -18,11 +13,11 @@ def generate_portal_token(credentials):
     params = {
         "username": credentials['username'],
         "password": credentials['password'],
-        "referer": URL_GIS_ENTERPRISE,
+        "referer": url_gis_enterprise,
         "f": "json",
     }
 
-    response = requests.post(URL_TO_GENERATE_TOKEN, data=params, verify=False)
+    response = requests.post(url_to_generate_token, data=params, verify=False)
 
     if response.status_code == 200:
         token_info = response.json()
@@ -31,14 +26,14 @@ def generate_portal_token(credentials):
         logger.info(f"Erro ao gerar token: {response.text}")
 
 @task(name="Buscar camada portal", description="Busca camada portal")
-def get_layer_on_portal(url_layer,token):
+def get_layer_on_portal(url_layer,token, url_gis_enterprise):
 
     logger = get_run_logger()
     logger.info(f"{get_layer_on_portal.description}")
 
     session = requests.Session()
     session.verify = False 
-    url = f"{URL_GIS_ENTERPRISE}/portal"
+    url = f"{url_gis_enterprise}/portal"
 
     GIS(url, token=token, verify_cert=False, session=session)
 
