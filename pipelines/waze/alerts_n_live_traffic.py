@@ -12,10 +12,10 @@ import os
 load_dotenv()
 secret_block = Secret.load("usuario-integrador-agol")
 user_agol = secret_block.get()
-print(Secret.load("waze_url_autenticada_api"))
+
 URL_WAZE_API = (
     os.getenv("WAZE_PARTNER_HUB_API_URL") or Secret.load(
-        "waze_url_autenticada_api")
+        "waze-url-autenticada-api")
 )
 LIVE_ALERTS_LAYER_ID_AGOL = (
     os.getenv("LIVE_ALERTS_LAYER_ID_AGOL")
