@@ -14,7 +14,8 @@ secret_block = Secret.load("usuario-integrador-agol")
 user_agol = secret_block.get()
 
 URL_WAZE_API = (
-    os.getenv("WAZE_PARTNER_HUB_API_URL") or Variable.get("url_waze_api")["URL"]
+    os.getenv("WAZE_PARTNER_HUB_API_URL") or Secret.load(
+        "waze_url_autenticada_api")
 )
 LIVE_ALERTS_LAYER_ID_AGOL = (
     os.getenv("LIVE_ALERTS_LAYER_ID_AGOL")
@@ -53,7 +54,8 @@ def waze_live():
         df_live_traffic_layer = query_layer_agol(live_traffic_layer)
 
         if not dfs_api["alerts"].empty:
-            waze_live_alerts(dfs_api["alerts"], df_live_alerts_layer, live_alerts_layer)
+            waze_live_alerts(dfs_api["alerts"],
+                             df_live_alerts_layer, live_alerts_layer)
 
         if not dfs_api["traffic"].empty:
             waze_live_traffic(
