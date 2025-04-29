@@ -15,7 +15,7 @@ user_agol = secret_block.get()
 
 URL_WAZE_API = (
     os.getenv("WAZE_PARTNER_HUB_API_URL") or Secret.load(
-        "waze-url-autenticada-api")
+        "waze-url-autenticada-api").get()
 )
 LIVE_ALERTS_LAYER_ID_AGOL = (
     os.getenv("LIVE_ALERTS_LAYER_ID_AGOL")
