@@ -14,7 +14,7 @@ user_agol = Secret.load("usuario-integrador-agol").get()
 user_portal = Secret.load("usuario-pmngeo-portal").get()
 
 URL_WAZE_API = os.getenv("WAZE_PARTNER_HUB_API_URL") or Secret.load(
-    "waze_url_autenticada_api")
+    "waze-url-autenticada-api")
 URL_TRAFFIC_HIST_PORTAL = os.getenv(
     "URL_TRAFFIC_HIST_PORTAL") or his_layers_url["URL_TRAFEGO"]
 URL_TO_GENERATE_TOKEN = os.getenv(
