@@ -8,6 +8,7 @@ import os
 from utils.index import df_col_type_mapping, create_ms_timestamp
 from alerts_flow import waze_alerts
 from traffic_flow import waze_traffic
+from tasks.collect_waze import get_waze_partnerhub_json
 
 load_dotenv()
 
@@ -18,6 +19,9 @@ WAZE_PARTNER_HUB_API_URL = (
     if IS_LOCAL_RUN
     else Secret.load("waze-url-autenticada-api").get()
 )
+
+RAW_FILES_PATH = "/opt/prefect_raw/data"
+
 
 MAP_TRAFFIC_COLLUMS = {
     "country": "tx_pais",
@@ -68,29 +72,6 @@ MAP_TIPO_VIA = {
     20: "Via de estacionamento",
     21: "Via de serviço",
 }
-
-
-@task(
-    name="Buscar dados", description="Busca dados da API Waze e retorna em formato JSON"
-)
-def get_api_data_as_json():
-    logger = get_run_logger()
-    logger.info(f"{get_api_data_as_json.description}")
-
-    try:
-        response = requests.get(WAZE_PARTNER_HUB_API_URL)
-        response.raise_for_status()
-        data = response.json()
-
-        if not isinstance(data, dict):
-            raise ValueError(f"Erro ao obter dados da API em JSON: {data}")
-
-        logger.info("Dados obtidos com sucesso")
-
-        return data
-
-    except requests.exceptions.RequestException as e:
-        raise ValueError(f"Erro ao acessar a API: {e}")
 
 
 @task(
@@ -297,7 +278,9 @@ def waze_live():
     try:
         logger = get_run_logger()
         logger.info(f"{waze_live.description}")
-        waze_json_data = get_api_data_as_json()
+        waze_json_data = get_waze_partnerhub_json(
+            WAZE_PARTNER_HUB_API_URL, RAW_FILES_PATH
+        )
         transformed_api_data = transform_api_data(waze_json_data)
 
         if not transformed_api_data["traffic"].empty:
