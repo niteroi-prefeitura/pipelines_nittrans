@@ -33,7 +33,12 @@ CREDENTIALS_PORTAL = {
 }
 
 
-@flow(name="Histórico de Tráfego", log_prints=True)
+@flow(
+    name="Histórico de Tráfego",
+    log_prints=True,
+    retries=2,
+    retry_delay_seconds=120
+)
 def waze_traffic_hist():
     try:
         waze_data = get_api_data_as_json(URL_WAZE_API)

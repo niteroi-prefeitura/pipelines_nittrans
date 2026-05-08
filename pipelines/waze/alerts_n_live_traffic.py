@@ -292,6 +292,8 @@ def create_features(df_api):
     name="Waze Live",
     description="Fluxo para manter camadas atualizada com api waze",
     log_prints=True,
+    retries=1,
+    retry_delay_seconds=60
 )
 def waze_live():
     try:
