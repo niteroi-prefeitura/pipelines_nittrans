@@ -37,7 +37,7 @@ CREDENTIALS_PORTAL = {
     name="Histórico de Tráfego",
     log_prints=True,
     retries=2,
-    retry_delay_seconds=120
+    retry_delay_seconds=180
 )
 def waze_traffic_hist():
     try:
